@@ -4,16 +4,16 @@ export const projectsData: Project[] = [
   {
     id: 'web-vulnerability-scanner',
     title: 'Advanced Web Vulnerability Scanner',
-    category: 'Offensive Security / Tooling',
+    category: 'Offensive Security / Automated Tooling',
     tag: 'Python Security Automation',
     year: '2026',
-    description: 'Developed a Python-based web vulnerability scanner featuring a configurable, depth-limited crawler and automated security testing suite.',
-    technologies: ['Python', 'Requests', 'HTML Parsing', 'Urllib', 'Regex', 'Argparse'],
+    description: 'Developed an automated Python-based web vulnerability scanner featuring a configurable, depth-limited crawler and automated injection testing suite.',
+    technologies: ['Python', 'Requests', 'BeautifulSoup', 'Urllib', 'Regex', 'Argparse'],
     problemStatement: 'Manual discovery of endpoint injection points and web application weaknesses is time-consuming during preliminary reconnaissance and security assessments.',
     implementationDetails: [
       'Automated URL discovery with breadth/depth-controlled recursive crawler',
       'Configurable crawl depth limits and domain-scoping safety controls',
-      'SQL Injection detection modules targeting parameter input reflection and error signatures',
+      'SQL Injection detection modules targeting parameter reflection and error signatures',
       'Reflected Cross-Site Scripting (XSS) payload delivery and DOM context detection',
       'Open Redirect testing with HTTP status and header location analysis',
       'Directory Traversal and local file inclusion pattern testing',
@@ -21,7 +21,7 @@ export const projectsData: Project[] = [
       'Structured terminal and file-based vulnerability summary reporting'
     ],
     resultsOrStatus: 'Functional security automation tool for rapid URL surface mapping and common vulnerability detection during security testing assessments.',
-    githubUrl: 'https://github.com/svw8c64y7r-dotcom',
+    githubUrl: 'https://github.com/svw8c64y7r-dotcom/AIpentestfi',
     isLabWork: false,
     highlights: [
       'Automated URL Discovery',
@@ -48,7 +48,7 @@ export const projectsData: Project[] = [
       'Structured exception handling and security auditing middleware'
     ],
     resultsOrStatus: 'Robust full-stack architecture implementing end-to-end security patterns and maintainable Spring services.',
-    githubUrl: 'https://github.com/svw8c64y7r-dotcom',
+    githubUrl: 'https://github.com/svw8c64y7r-dotcom/eponew',
     isLabWork: false,
     highlights: [
       'RESTful API Implementation',
@@ -75,6 +75,7 @@ export const projectsData: Project[] = [
       'Actionable remediation guidelines and developer mitigation handoff'
     ],
     resultsOrStatus: 'Conducted as practical security testing exercises. Full assessment deliverables and verified findings are documented following standard VAPT reporting structures.',
+    githubUrl: 'https://github.com/svw8c64y7r-dotcom/Epoteck_Report',
     isLabWork: true,
     highlights: [
       'OWASP Top 10 Methodology',
@@ -91,7 +92,7 @@ export const projectsData: Project[] = [
     tag: 'DFIR Practical Laboratory',
     year: '2025',
     description: 'Practical forensic investigations analyzing digital artifacts across host memory dumps, filesystem images, and network communication traces.',
-    technologies: ['Volatility 3', 'Autopsy', 'Wireshark', 'FTK Imager', 'FTK / Sleuth Kit', 'Strings & Hashes'],
+    technologies: ['Volatility 3', 'Autopsy', 'Wireshark', 'FTK Imager', 'Sleuth Kit', 'Strings & Hashes'],
     problemStatement: 'Investigating simulated security breaches, malware persistence techniques, and data exfiltration scenarios through rigorous digital evidence recovery.',
     implementationDetails: [
       'Volatile memory forensics: extracting running processes, dll lists, network sockets, and command history using Volatility 3',
@@ -101,6 +102,7 @@ export const projectsData: Project[] = [
       'Chain-of-custody maintenance and evidence integrity hashing'
     ],
     resultsOrStatus: 'Practical forensic laboratory exercises demonstrating investigative rigor and evidence analysis under forensic standards.',
+    githubUrl: 'https://github.com/svw8c64y7r-dotcom/network-forensic',
     isLabWork: true,
     highlights: [
       'Memory Forensics (Volatility 3)',
@@ -127,6 +129,7 @@ export const projectsData: Project[] = [
       'Simulated incident response triage and containment procedural walk-throughs'
     ],
     resultsOrStatus: 'Practical defensive exercises exploring SIEM event correlation and threat detection rules using verified laboratory tools.',
+    githubUrl: 'https://github.com/svw8c64y7r-dotcom/red_teaming',
     isLabWork: true,
     highlights: [
       'Wazuh SIEM Deployment',

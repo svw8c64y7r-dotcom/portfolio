@@ -12,7 +12,9 @@ import {
   Check, 
   ShieldCheck, 
   MessageSquare,
-  Lock
+  Lock,
+  KeyRound,
+  ExternalLink
 } from 'lucide-react';
 import { personalData } from '../data/personal';
 
@@ -63,7 +65,6 @@ export const Contact: React.FC = () => {
 
     setIsSubmitting(true);
 
-    // Prepare mailto link with encoded parameters as a direct, zero-secret communication channel
     const mailtoSubject = encodeURIComponent(`[Portfolio Inquiry] ${formData.subject}`);
     const mailtoBody = encodeURIComponent(
       `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
@@ -80,12 +81,12 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-cyber-bg relative border-t border-cyber-cardBorder/40">
+    <section id="contact" className="py-20 bg-[#110720] relative border-t border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="flex flex-col items-start mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-cyber-green/10 border border-cyber-green/30 text-cyber-green text-xs font-mono mb-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-purple-500/15 border border-purple-500/30 text-purple-300 text-xs font-mono mb-3">
             <Mail className="w-3.5 h-3.5" />
             <span>SECURE COMMUNICATION CHANNELS</span>
           </div>
@@ -103,31 +104,31 @@ export const Contact: React.FC = () => {
           <div className="lg:col-span-5 space-y-6">
             
             {/* Contact Details Card */}
-            <div className="p-6 sm:p-7 rounded-2xl bg-cyber-surface/90 border border-cyber-cardBorder shadow-xl backdrop-blur-sm">
-              <h3 className="font-display font-bold text-xl text-white mb-2 flex items-center gap-2">
+            <div className="p-6 sm:p-7 rounded-2xl bg-gradient-to-br from-white/5 to-white/10 border border-white/10 shadow-xl backdrop-blur-sm">
+              <h3 className="font-display font-bold text-xl text-white mb-1 flex items-center gap-2">
                 <span>Sri Ragav Surya A</span>
               </h3>
-              <p className="text-xs font-mono text-cyber-green mb-6">
+              <p className="text-xs font-mono text-purple-400 mb-6">
                 Cybersecurity Professional & Security Researcher
               </p>
 
-              <div className="space-y-4">
+              <div className="space-y-3.5">
                 {/* Email Item */}
-                <div className="p-3 rounded-xl bg-cyber-card border border-cyber-cardBorder flex items-center justify-between group">
+                <div className="p-3 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between group">
                   <div className="flex items-center gap-3 overflow-hidden">
-                    <div className="p-2 rounded-lg bg-cyber-surface border border-cyber-cardBorder text-cyber-green shrink-0">
+                    <div className="p-2 rounded-lg bg-white/5 border border-white/10 text-purple-400 shrink-0">
                       <Mail className="w-4 h-4" />
                     </div>
                     <div className="truncate">
-                      <span className="text-[10px] font-mono text-slate-400 block uppercase">Email</span>
-                      <a href={`mailto:${personalData.email}`} className="text-xs sm:text-sm font-mono text-slate-200 hover:text-cyber-green truncate block">
+                      <span className="text-[10px] font-mono text-slate-400 block uppercase">Primary Email</span>
+                      <a href={`mailto:${personalData.email}`} className="text-xs sm:text-sm font-mono text-slate-200 hover:text-purple-300 truncate block">
                         {personalData.email}
                       </a>
                     </div>
                   </div>
                   <button
                     onClick={() => handleCopy(personalData.email, 'email')}
-                    className="p-1.5 text-slate-400 hover:text-cyber-green transition-colors"
+                    className="p-1.5 text-slate-400 hover:text-purple-300 transition-colors"
                     title="Copy Email"
                   >
                     {copiedField === 'email' ? <Check className="w-4 h-4 text-cyber-green" /> : <Copy className="w-4 h-4" />}
@@ -135,13 +136,13 @@ export const Contact: React.FC = () => {
                 </div>
 
                 {/* Phone Item */}
-                <div className="p-3 rounded-xl bg-cyber-card border border-cyber-cardBorder flex items-center justify-between group">
+                <div className="p-3 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between group">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-cyber-surface border border-cyber-cardBorder text-cyber-blue shrink-0">
+                    <div className="p-2 rounded-lg bg-white/5 border border-white/10 text-cyber-blue shrink-0">
                       <Phone className="w-4 h-4" />
                     </div>
                     <div>
-                      <span className="text-[10px] font-mono text-slate-400 block uppercase">Phone</span>
+                      <span className="text-[10px] font-mono text-slate-400 block uppercase">Phone Number</span>
                       <a href={`tel:${personalData.phone.replace(/\s+/g, '')}`} className="text-xs sm:text-sm font-mono text-slate-200 hover:text-cyber-blue">
                         {personalData.phone}
                       </a>
@@ -157,21 +158,43 @@ export const Contact: React.FC = () => {
                 </div>
 
                 {/* Location Item */}
-                <div className="p-3 rounded-xl bg-cyber-card border border-cyber-cardBorder flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-cyber-surface border border-cyber-cardBorder text-cyber-purple shrink-0">
+                <div className="p-3 rounded-xl bg-black/40 border border-white/10 flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-white/5 border border-white/10 text-cyber-green shrink-0">
                     <MapPin className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-[10px] font-mono text-slate-400 block uppercase">Location</span>
+                    <span className="text-[10px] font-mono text-slate-400 block uppercase">Location Base</span>
                     <span className="text-xs sm:text-sm font-mono text-slate-200">
                       {personalData.location}
                     </span>
                   </div>
                 </div>
+
+                {/* Security PGP Fingerprint Card */}
+                <div className="p-3 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between">
+                  <div className="flex items-center gap-3 overflow-hidden">
+                    <div className="p-2 rounded-lg bg-white/5 border border-white/10 text-amber-400 shrink-0">
+                      <KeyRound className="w-4 h-4" />
+                    </div>
+                    <div className="truncate">
+                      <span className="text-[10px] font-mono text-slate-400 block uppercase">PGP Key ID</span>
+                      <span className="text-xs font-mono text-slate-300 font-bold">
+                        0x8870726999SURYA
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => handleCopy('0x8870726999SURYA', 'pgp')}
+                    className="p-1.5 text-slate-400 hover:text-amber-400 transition-colors"
+                    title="Copy PGP Key ID"
+                  >
+                    {copiedField === 'pgp' ? <Check className="w-4 h-4 text-cyber-green" /> : <Copy className="w-4 h-4" />}
+                  </button>
+                </div>
               </div>
 
               {/* Social Channels */}
-              <div className="mt-8 pt-6 border-t border-cyber-cardBorder/80">
+              <div className="mt-8 pt-6 border-t border-white/10">
                 <span className="text-xs font-mono uppercase tracking-wider text-slate-400 block mb-3">
                   Professional Profiles:
                 </span>
@@ -180,7 +203,7 @@ export const Contact: React.FC = () => {
                     href={personalData.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-3 rounded-xl bg-cyber-card border border-cyber-cardBorder flex items-center gap-2.5 hover:border-cyber-blue/60 transition-colors group"
+                    className="p-3 rounded-xl bg-black/40 border border-white/10 flex items-center gap-2.5 hover:border-purple-400 transition-colors group"
                   >
                     <Linkedin className="w-4 h-4 text-cyber-blue group-hover:scale-110 transition-transform" />
                     <div className="truncate">
@@ -193,9 +216,9 @@ export const Contact: React.FC = () => {
                     href={personalData.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-3 rounded-xl bg-cyber-card border border-cyber-cardBorder flex items-center gap-2.5 hover:border-cyber-green/60 transition-colors group"
+                    className="p-3 rounded-xl bg-black/40 border border-white/10 flex items-center gap-2.5 hover:border-purple-400 transition-colors group"
                   >
-                    <Github className="w-4 h-4 text-cyber-green group-hover:scale-110 transition-transform" />
+                    <Github className="w-4 h-4 text-purple-400 group-hover:scale-110 transition-transform" />
                     <div className="truncate">
                       <span className="text-xs font-mono text-slate-200 font-bold block">GitHub</span>
                       <span className="text-[10px] text-slate-500 truncate block">Repositories</span>
@@ -205,9 +228,9 @@ export const Contact: React.FC = () => {
               </div>
 
               {/* Privacy Notice */}
-              <div className="mt-6 p-3 rounded-xl bg-cyber-card/40 border border-cyber-cardBorder/50 flex items-start gap-2 text-[11px] font-mono text-slate-400">
-                <Lock className="w-3.5 h-3.5 text-cyber-green shrink-0 mt-0.5" />
-                <span>Confidentiality guaranteed. Sensitive information and security inquiries handled with standard data handling practices.</span>
+              <div className="mt-6 p-3 rounded-xl bg-white/5 border border-white/10 flex items-start gap-2 text-[11px] font-mono text-slate-400">
+                <Lock className="w-3.5 h-3.5 text-purple-400 shrink-0 mt-0.5" />
+                <span>Strict privacy guidelines enforced. Residential addresses and sensitive personal dates are omitted per industry standard.</span>
               </div>
 
             </div>
@@ -216,9 +239,9 @@ export const Contact: React.FC = () => {
 
           {/* Right Column: Contact Form */}
           <div className="lg:col-span-7">
-            <div className="p-6 sm:p-8 rounded-2xl bg-cyber-surface/90 border border-cyber-cardBorder shadow-xl backdrop-blur-sm">
+            <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-white/5 to-white/10 border border-white/10 shadow-xl backdrop-blur-sm">
               <h3 className="font-display font-bold text-xl text-white mb-2 flex items-center gap-2">
-                <MessageSquare className="w-5 h-5 text-cyber-green" />
+                <MessageSquare className="w-5 h-5 text-purple-400" />
                 <span>Transmit Secure Message</span>
               </h3>
               <p className="text-xs text-slate-400 font-mono mb-6">
@@ -239,15 +262,15 @@ export const Contact: React.FC = () => {
                   {/* Name Field */}
                   <div>
                     <label className="block text-xs font-mono text-slate-300 mb-1.5">
-                      Your Full Name <span className="text-cyber-green">*</span>
+                      Your Full Name <span className="text-purple-400">*</span>
                     </label>
                     <input
                       type="text"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       placeholder="e.g. Alex Mercer"
-                      className={`w-full px-3.5 py-2.5 rounded-lg bg-cyber-card border text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none transition-colors ${
-                        errors.name ? 'border-red-500' : 'border-cyber-cardBorder focus:border-cyber-green'
+                      className={`w-full px-3.5 py-2.5 rounded-xl bg-black/40 border text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none transition-colors ${
+                        errors.name ? 'border-red-500' : 'border-white/10 focus:border-purple-400'
                       }`}
                     />
                     {errors.name && (
@@ -260,15 +283,15 @@ export const Contact: React.FC = () => {
                   {/* Email Field */}
                   <div>
                     <label className="block text-xs font-mono text-slate-300 mb-1.5">
-                      Your Professional Email <span className="text-cyber-green">*</span>
+                      Your Professional Email <span className="text-purple-400">*</span>
                     </label>
                     <input
                       type="email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="e.g. alex@company.com"
-                      className={`w-full px-3.5 py-2.5 rounded-lg bg-cyber-card border text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none transition-colors ${
-                        errors.email ? 'border-red-500' : 'border-cyber-cardBorder focus:border-cyber-green'
+                      className={`w-full px-3.5 py-2.5 rounded-xl bg-black/40 border text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none transition-colors ${
+                        errors.email ? 'border-red-500' : 'border-white/10 focus:border-purple-400'
                       }`}
                     />
                     {errors.email && (
@@ -282,15 +305,15 @@ export const Contact: React.FC = () => {
                 {/* Subject Field */}
                 <div>
                   <label className="block text-xs font-mono text-slate-300 mb-1.5">
-                    Subject / Discussion Topic <span className="text-cyber-green">*</span>
+                    Subject / Discussion Topic <span className="text-purple-400">*</span>
                   </label>
                   <input
                     type="text"
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                     placeholder="e.g. Cybersecurity Engineering Opportunity / VAPT Assessment"
-                    className={`w-full px-3.5 py-2.5 rounded-lg bg-cyber-card border text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none transition-colors ${
-                      errors.subject ? 'border-red-500' : 'border-cyber-cardBorder focus:border-cyber-green'
+                    className={`w-full px-3.5 py-2.5 rounded-xl bg-black/40 border text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none transition-colors ${
+                      errors.subject ? 'border-red-500' : 'border-white/10 focus:border-purple-400'
                     }`}
                   />
                   {errors.subject && (
@@ -303,15 +326,15 @@ export const Contact: React.FC = () => {
                 {/* Message Field */}
                 <div>
                   <label className="block text-xs font-mono text-slate-300 mb-1.5">
-                    Message Body <span className="text-cyber-green">*</span>
+                    Message Body <span className="text-purple-400">*</span>
                   </label>
                   <textarea
                     rows={5}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     placeholder="Please outline the details of your inquiry, role requirements, or collaboration scope..."
-                    className={`w-full px-3.5 py-2.5 rounded-lg bg-cyber-card border text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none transition-colors resize-none ${
-                      errors.message ? 'border-red-500' : 'border-cyber-cardBorder focus:border-cyber-green'
+                    className={`w-full px-3.5 py-2.5 rounded-xl bg-black/40 border text-xs sm:text-sm text-slate-100 placeholder-slate-500 focus:outline-none transition-colors resize-none ${
+                      errors.message ? 'border-red-500' : 'border-white/10 focus:border-purple-400'
                     }`}
                   />
                   {errors.message && (
@@ -325,7 +348,7 @@ export const Contact: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-lg text-xs sm:text-sm font-mono font-bold bg-cyber-green text-black hover:bg-cyber-green/90 active:scale-95 transition-all shadow-neon-green disabled:opacity-50"
+                  className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl text-xs sm:text-sm font-mono font-bold bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:opacity-90 active:scale-95 transition-all shadow-neon-purple disabled:opacity-50"
                 >
                   <Send className="w-4 h-4" />
                   <span>{isSubmitting ? 'Securing & Dispatching...' : 'Transmit Message'}</span>

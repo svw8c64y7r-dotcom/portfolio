@@ -9,7 +9,9 @@ import {
   Bot, 
   Layers, 
   CheckCircle,
-  Sparkles
+  Sparkles,
+  Copy,
+  Check
 } from 'lucide-react';
 import { skillGroups } from '../data/skills';
 import { SkillGroup, SkillItem } from '../types';
@@ -17,12 +19,13 @@ import { SkillGroup, SkillItem } from '../types';
 export const Skills: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [copiedMatrix, setCopiedMatrix] = useState(false);
 
   const categoryIcons: Record<string, React.ReactNode> = {
-    'offensive-security': <ShieldAlert className="w-4 h-4 text-cyber-green" />,
+    'offensive-security': <ShieldAlert className="w-4 h-4 text-purple-400" />,
     'defensive-security': <ShieldCheck className="w-4 h-4 text-cyber-blue" />,
-    'dfir': <Binary className="w-4 h-4 text-cyan-400" />,
-    'grc': <FileCheck2 className="w-4 h-4 text-cyber-purple" />,
+    'dfir': <Binary className="w-4 h-4 text-cyber-green" />,
+    'grc': <FileCheck2 className="w-4 h-4 text-indigo-400" />,
     'programming-development': <Terminal className="w-4 h-4 text-amber-400" />,
     'automation-testing': <Bot className="w-4 h-4 text-emerald-400" />,
   };
@@ -43,26 +46,35 @@ export const Skills: React.FC = () => {
   const getProficiencyBadgeStyle = (prof?: string) => {
     switch (prof) {
       case 'Core Competency':
-        return 'bg-cyber-green/15 text-cyber-green border-cyber-green/40 shadow-sm';
+        return 'bg-purple-500/15 text-purple-300 border-purple-500/40 shadow-sm';
       case 'Advanced':
         return 'bg-cyber-blue/15 text-cyber-blue border-cyber-blue/40';
       case 'Proficient':
-        return 'bg-cyber-purple/15 text-cyber-purple border-cyber-purple/40';
+        return 'bg-emerald-500/15 text-emerald-300 border-emerald-500/40';
       case 'Hands-On':
         return 'bg-amber-400/15 text-amber-300 border-amber-400/40';
       default:
-        return 'bg-slate-800 text-slate-300 border-slate-700';
+        return 'bg-white/5 text-slate-300 border-white/10';
     }
   };
 
+  const handleCopySkillsMatrix = () => {
+    const text = skillGroups.map(g => 
+      `[${g.category.toUpperCase()}]\n` + g.skills.map(s => ` - ${s.name} (${s.proficiency || 'Verified'})`).join('\n')
+    ).join('\n\n');
+    navigator.clipboard.writeText(`SRI RAGAV SURYA A - TECHNICAL SKILLS MATRIX\n\n${text}`);
+    setCopiedMatrix(true);
+    setTimeout(() => setCopiedMatrix(false), 2000);
+  };
+
   return (
-    <section id="skills" className="py-20 bg-cyber-bg relative border-t border-cyber-cardBorder/40">
+    <section id="skills" className="py-20 bg-[#110720] relative border-t border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-cyber-blue/10 border border-cyber-blue/30 text-cyber-blue text-xs font-mono mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-purple-500/15 border border-purple-500/30 text-purple-300 text-xs font-mono mb-3">
               <Layers className="w-3.5 h-3.5" />
               <span>TECHNICAL COMPETENCY MATRIX</span>
             </div>
@@ -74,16 +86,27 @@ export const Skills: React.FC = () => {
             </p>
           </div>
 
-          {/* Quick Search Input */}
-          <div className="relative w-full md:w-72">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search tools or skills (e.g. Burp, Python)..."
-              className="w-full pl-9 pr-3 py-2 text-xs rounded-lg bg-cyber-surface border border-cyber-cardBorder text-slate-100 placeholder-slate-500 focus:outline-none focus:border-cyber-green transition-colors font-mono"
-            />
+          {/* Quick Search & Export */}
+          <div className="flex items-center gap-2 self-start md:self-end">
+            <div className="relative w-56 sm:w-64">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search skills (e.g. Burp, Python)..."
+                className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white/5 border border-white/10 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-purple-400 transition-colors font-mono"
+              />
+            </div>
+
+            <button
+              onClick={handleCopySkillsMatrix}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-mono font-medium bg-white/5 border border-white/10 text-slate-300 hover:text-white hover:border-purple-400 transition-all shrink-0"
+              title="Copy formatted skills matrix"
+            >
+              {copiedMatrix ? <Check className="w-3.5 h-3.5 text-cyber-green" /> : <Copy className="w-3.5 h-3.5 text-purple-400" />}
+              <span className="hidden sm:inline">{copiedMatrix ? 'Copied' : 'Export Matrix'}</span>
+            </button>
           </div>
         </div>
 
@@ -93,8 +116,8 @@ export const Skills: React.FC = () => {
             onClick={() => setSelectedCategory('all')}
             className={`px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium transition-all shrink-0 ${
               selectedCategory === 'all'
-                ? 'bg-cyber-green text-black font-bold shadow-neon-green'
-                : 'bg-cyber-surface border border-cyber-cardBorder text-slate-300 hover:text-white'
+                ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold shadow-neon-purple'
+                : 'bg-white/5 border border-white/10 text-slate-300 hover:text-white'
             }`}
           >
             All Disciplines ({skillGroups.reduce((acc, g) => acc + g.skills.length, 0)})
@@ -106,8 +129,8 @@ export const Skills: React.FC = () => {
               onClick={() => setSelectedCategory(g.id)}
               className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium transition-all shrink-0 ${
                 selectedCategory === g.id
-                  ? 'bg-cyber-blue text-black font-bold shadow-neon-blue'
-                  : 'bg-cyber-surface border border-cyber-cardBorder text-slate-300 hover:text-white hover:border-slate-500'
+                  ? 'bg-purple-500/30 border border-purple-400 text-purple-200 font-bold'
+                  : 'bg-white/5 border border-white/10 text-slate-300 hover:text-white hover:border-slate-500'
               }`}
             >
               {categoryIcons[g.id]}
@@ -129,17 +152,17 @@ export const Skills: React.FC = () => {
             return (
               <div
                 key={group.id}
-                className="rounded-2xl bg-cyber-surface/80 border border-cyber-cardBorder p-5 sm:p-6 flex flex-col justify-between hover:border-cyber-green/40 transition-all duration-300 group shadow-lg"
+                className="rounded-2xl bg-gradient-to-br from-white/5 to-white/10 border border-white/10 p-5 sm:p-6 flex flex-col justify-between hover:border-purple-500/40 transition-all duration-300 group shadow-lg backdrop-blur-md"
               >
                 <div>
                   {/* Card Header */}
                   <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-2">
-                      <div className="p-2 rounded-lg bg-cyber-card border border-cyber-cardBorder group-hover:border-cyber-green/40 transition-colors">
+                    <div className="flex items-center gap-2.5">
+                      <div className="p-2 rounded-xl bg-black/40 border border-white/10 group-hover:border-purple-500/40 transition-colors">
                         {categoryIcons[group.id]}
                       </div>
                       <div>
-                        <h3 className="font-display font-bold text-base text-slate-100 group-hover:text-cyber-green transition-colors">
+                        <h3 className="font-display font-bold text-base text-white group-hover:text-purple-300 transition-colors">
                           {group.category}
                         </h3>
                         <span className="text-[10px] font-mono text-slate-400">
@@ -149,16 +172,16 @@ export const Skills: React.FC = () => {
                     </div>
                   </div>
 
-                  <p className="text-xs text-slate-400 mb-4 line-clamp-2">
+                  <p className="text-xs text-slate-400 mb-4 line-clamp-2 leading-relaxed">
                     {group.description}
                   </p>
 
                   {/* Skills Tag Cloud */}
-                  <div className="flex flex-wrap gap-2 pt-2 border-t border-cyber-cardBorder/60">
+                  <div className="flex flex-wrap gap-2 pt-2 border-t border-white/10">
                     {filteredSkills.map((skill: SkillItem, idx: number) => (
                       <div
                         key={idx}
-                        className="group/tag inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-cyber-card border border-cyber-cardBorder text-slate-200 hover:border-cyber-green/50 transition-all"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-black/40 border border-white/10 text-slate-200 hover:border-purple-500/40 transition-all"
                       >
                         <span className="text-xs font-medium font-sans">
                           {skill.name}
@@ -173,8 +196,8 @@ export const Skills: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Card Footer: Domain Guarantee */}
-                <div className="mt-5 pt-3 border-t border-cyber-cardBorder/40 flex items-center justify-between text-[11px] font-mono text-slate-400">
+                {/* Card Footer */}
+                <div className="mt-5 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-400">
                   <span className="flex items-center gap-1 text-cyber-green">
                     <CheckCircle className="w-3 h-3" />
                     <span>Explainable & Tested</span>
@@ -186,17 +209,17 @@ export const Skills: React.FC = () => {
           })}
         </div>
 
-        {/* Legend / Transparency Banner */}
-        <div className="mt-12 p-4 rounded-xl bg-cyber-surface/40 border border-cyber-cardBorder flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-slate-400">
+        {/* Legend Banner */}
+        <div className="mt-12 p-4 rounded-xl bg-white/5 border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-slate-400">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-cyber-green" />
+            <Sparkles className="w-4 h-4 text-purple-400" />
             <span>Honest Evaluation Notice: Only displaying skills tested through practical labs, real assessments, or code. No arbitrary percentages.</span>
           </div>
           <div className="flex items-center gap-2 shrink-0">
-            <span className="px-2 py-0.5 rounded bg-cyber-green/10 border border-cyber-green/40 text-cyber-green text-[10px]">Core</span>
-            <span className="px-2 py-0.5 rounded bg-cyber-blue/10 border border-cyber-blue/40 text-cyber-blue text-[10px]">Advanced</span>
-            <span className="px-2 py-0.5 rounded bg-cyber-purple/10 border border-cyber-purple/40 text-cyber-purple text-[10px]">Proficient</span>
-            <span className="px-2 py-0.5 rounded bg-amber-400/10 border border-amber-400/40 text-amber-300 text-[10px]">Hands-On</span>
+            <span className="px-2 py-0.5 rounded bg-purple-500/20 border border-purple-500/40 text-purple-300 text-[10px]">Core</span>
+            <span className="px-2 py-0.5 rounded bg-cyber-blue/20 border border-cyber-blue/40 text-cyber-blue text-[10px]">Advanced</span>
+            <span className="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[10px]">Proficient</span>
+            <span className="px-2 py-0.5 rounded bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[10px]">Hands-On</span>
           </div>
         </div>
 
