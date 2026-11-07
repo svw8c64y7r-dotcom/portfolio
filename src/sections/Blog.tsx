@@ -260,3 +260,4 @@ export const Blog: React.FC = () => {
     </section>
   );
 };
+

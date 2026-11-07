@@ -184,3 +184,4 @@ python3 vol.py -f memory.raw windows.malfind --pid 3488`
     }
   }
 ];
+
