@@ -62,3 +62,4 @@ export const SocStatusBar: React.FC<SocStatusBarProps> = ({ onOpenCommandPalette
     </div>
   );
 };
+
