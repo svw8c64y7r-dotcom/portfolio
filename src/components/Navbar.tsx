@@ -11,12 +11,14 @@ import {
   ExternalLink
 } from 'lucide-react';
 import { personalData } from '../data/personal';
+import { SocStatusBar } from './SocStatusBar';
 
 interface NavbarProps {
   onOpenResumeModal?: () => void;
+  onOpenCommandPalette?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal, onOpenCommandPalette }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
@@ -69,78 +71,82 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
   };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-[#110720]/90 backdrop-blur-md border-b border-purple-500/20 shadow-lg shadow-purple-950/40 py-2.5' : 'bg-transparent py-4'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          
-          {/* Brand Moniker / Shield */}
-          <a href="#hero" className="flex items-center space-x-3 group shrink-0">
-            <div className="relative w-9 h-9 flex items-center justify-center rounded-xl bg-purple-950/60 border border-purple-500/40 group-hover:border-purple-400 group-hover:shadow-neon-purple transition-all duration-300">
-              <Shield className="w-4 h-4 text-purple-400 transition-transform duration-300 group-hover:scale-110" />
-              <span className="absolute -top-1 -right-1 w-2 h-2 bg-cyber-green rounded-full animate-ping opacity-75" />
-              <span className="absolute -top-1 -right-1 w-2 h-2 bg-cyber-green rounded-full" />
-            </div>
-            <div>
-              <div className="font-display font-bold text-sm text-white group-hover:text-purple-300 transition-colors flex items-center gap-1">
-                <span>SRI RAGAV SURYA</span>
-                <span className="text-purple-400">A</span>
-              </div>
-              <div className="text-[9px] text-slate-400 font-mono tracking-wider flex items-center gap-1">
-                <span className="inline-block w-1 h-1 rounded-full bg-cyber-green"></span>
-                <span>CYBERSECURITY PROFESSIONAL</span>
-              </div>
-            </div>
-          </a>
+    <header className="fixed top-0 left-0 right-0 z-40 flex flex-col shadow-xl">
+      {/* Top Real-time Simulated SOC HUD Bar */}
+      <SocStatusBar onOpenCommandPalette={onOpenCommandPalette || (() => {})} />
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden 2xl:flex items-center space-x-1">
-            {navLinks.map((link) => {
-              const isActive = activeSection === link.href.substring(1);
-              return (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className={`px-2.5 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
-                    isActive 
-                      ? 'text-purple-300 bg-purple-500/20 border border-purple-500/40 shadow-sm' 
-                      : 'text-slate-300 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  {link.label}
-                </a>
-              );
-            })}
-          </nav>
+      {/* Main Glassmorphic Navigation Bar */}
+      <div className={`transition-all duration-300 ${isScrolled ? 'bg-[#110720]/95 backdrop-blur-md border-b border-purple-500/20 shadow-lg shadow-purple-950/40 py-2.5' : 'bg-[#110720]/90 backdrop-blur-md border-b border-white/10 py-3'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between">
+            
+            {/* Brand Moniker / Shield */}
+            <a href="#hero" className="flex items-center space-x-3 group shrink-0">
+              <div className="relative w-9 h-9 flex items-center justify-center rounded-xl bg-purple-950/60 border border-purple-500/40 group-hover:border-purple-400 group-hover:shadow-neon-purple transition-all duration-300">
+                <Shield className="w-4 h-4 text-purple-400 transition-transform duration-300 group-hover:scale-110" />
+                <span className="absolute -top-1 -right-1 w-2 h-2 bg-cyber-green rounded-full animate-ping opacity-75" />
+                <span className="absolute -top-1 -right-1 w-2 h-2 bg-cyber-green rounded-full" />
+              </div>
+              <div>
+                <div className="font-display font-bold text-sm text-white group-hover:text-purple-300 transition-colors flex items-center gap-1">
+                  <span>SRI RAGAV SURYA</span>
+                  <span className="text-purple-400">A</span>
+                </div>
+                <div className="text-[9px] text-slate-400 font-mono tracking-wider flex items-center gap-1">
+                  <span className="inline-block w-1 h-1 rounded-full bg-cyber-green"></span>
+                  <span>CYBERSECURITY PROFESSIONAL</span>
+                </div>
+              </div>
+            </a>
 
-          {/* Mid-screen condensed links */}
-          <nav className="hidden lg:flex 2xl:hidden items-center space-x-1">
-            {[
-              { label: 'About', href: '#about' },
-              { label: 'Skills', href: '#skills' },
-              { label: 'Experience', href: '#experience' },
-              { label: 'Projects', href: '#projects' },
-              { label: 'VAPT', href: '#vapt' },
-              { label: 'Blog', href: '#blog' },
-              { label: 'Achievements', href: '#achievements' },
-              { label: 'Terminal', href: '#terminal' },
-              { label: 'Contact', href: '#contact' },
-            ].map((link) => {
-              const isActive = activeSection === link.href.substring(1);
-              return (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className={`px-2.5 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
-                    isActive 
-                      ? 'text-purple-300 bg-purple-500/20 border border-purple-500/40 shadow-sm' 
-                      : 'text-slate-300 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  {link.label}
-                </a>
-              );
-            })}
-          </nav>
+            {/* Desktop Navigation Links (xl+ screens) */}
+            <nav className="hidden xl:flex items-center space-x-1">
+              {navLinks.map((link) => {
+                const isActive = activeSection === link.href.substring(1);
+                return (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className={`px-2.5 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
+                      isActive 
+                        ? 'text-purple-300 bg-purple-500/20 border border-purple-500/40 shadow-sm font-semibold' 
+                        : 'text-slate-300 hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    {link.label}
+                  </a>
+                );
+              })}
+            </nav>
+
+            {/* Laptop Navigation Links (lg to xl screens) */}
+            <nav className="hidden lg:flex xl:hidden items-center space-x-1">
+              {[
+                { label: 'About', href: '#about' },
+                { label: 'Skills', href: '#skills' },
+                { label: 'Experience', href: '#experience' },
+                { label: 'Projects', href: '#projects' },
+                { label: 'VAPT', href: '#vapt' },
+                { label: 'Blog', href: '#blog' },
+                { label: 'Terminal', href: '#terminal' },
+                { label: 'Contact', href: '#contact' },
+              ].map((link) => {
+                const isActive = activeSection === link.href.substring(1);
+                return (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className={`px-2 py-1 rounded-md text-xs font-medium transition-all duration-200 ${
+                      isActive 
+                        ? 'text-purple-300 bg-purple-500/20 border border-purple-500/40 shadow-sm font-semibold' 
+                        : 'text-slate-300 hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    {link.label}
+                  </a>
+                );
+              })}
+            </nav>
 
           {/* Action CTAs & Resume Button */}
           <div className="hidden lg:flex items-center space-x-2.5 shrink-0">
@@ -193,6 +199,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
 
         </div>
       </div>
+    </div>
 
       {/* Mobile Drawer Navigation */}
       {mobileMenuOpen && (

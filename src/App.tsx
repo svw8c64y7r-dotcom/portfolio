@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
-import { SocStatusBar } from './components/SocStatusBar';
 import { CommandPalette } from './components/CommandPalette';
 import { Hero } from './sections/Hero';
 import { About } from './sections/About';
@@ -74,11 +73,11 @@ export const App: React.FC = () => {
         aria-valuemax={100}
       />
 
-      {/* Real-time Simulated SOC HUD Bar */}
-      <SocStatusBar onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
-
-      {/* Sticky Navigation Bar */}
-      <Navbar onOpenResumeModal={() => setIsResumeModalOpen(true)} />
+      {/* Fixed Header with Integrated SOC Telemetry HUD & Navigation Bar */}
+      <Navbar 
+        onOpenResumeModal={() => setIsResumeModalOpen(true)} 
+        onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+      />
 
       {/* Main Content Area */}
       <main className="flex-1">

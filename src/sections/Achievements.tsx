@@ -14,7 +14,7 @@ import { achievementsData } from '../data/achievements';
 
 export const Achievements: React.FC = () => {
   return (
-    <section id="achievements" className="py-20 bg-cyber-bg relative border-t border-cyber-cardBorder/40">
+    <section id="achievements" className="py-20 bg-[#110720] relative border-t border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -42,10 +42,10 @@ export const Achievements: React.FC = () => {
                 key={item.id}
                 className={`relative rounded-2xl p-6 sm:p-7 flex flex-col justify-between border transition-all duration-300 backdrop-blur-md group ${
                   isFirst
-                    ? 'bg-gradient-to-b from-amber-500/10 via-cyber-surface to-cyber-surface border-amber-400/40 hover:border-amber-400 hover:shadow-[0_0_25px_-5px_rgba(251,191,36,0.3)]'
+                    ? 'bg-gradient-to-b from-amber-500/15 via-white/5 to-white/10 border-amber-400/40 hover:border-amber-400 hover:shadow-[0_0_25px_-5px_rgba(251,191,36,0.3)]'
                     : isSecond
-                    ? 'bg-gradient-to-b from-cyber-green/10 via-cyber-surface to-cyber-surface border-cyber-green/40 hover:border-cyber-green hover:shadow-neon-green'
-                    : 'bg-gradient-to-b from-cyber-blue/10 via-cyber-surface to-cyber-surface border-cyber-blue/40 hover:border-cyber-blue hover:shadow-neon-blue'
+                    ? 'bg-gradient-to-b from-cyber-green/15 via-white/5 to-white/10 border-cyber-green/40 hover:border-cyber-green hover:shadow-neon-green'
+                    : 'bg-gradient-to-b from-cyber-blue/15 via-white/5 to-white/10 border-cyber-blue/40 hover:border-cyber-blue hover:shadow-neon-blue'
                 }`}
               >
                 <div>
