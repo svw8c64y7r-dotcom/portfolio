@@ -33,12 +33,12 @@ export const Certifications: React.FC = () => {
   };
 
   return (
-    <section id="certifications" className="py-20 bg-cyber-bg relative border-t border-cyber-cardBorder/40">
+    <section id="certifications" className="py-20 bg-[#110720] relative border-t border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="flex flex-col items-start mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-cyber-green/10 border border-cyber-green/30 text-cyber-green text-xs font-mono mb-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-purple-500/15 border border-purple-500/30 text-purple-300 text-xs font-mono mb-3">
             <Award className="w-3.5 h-3.5" />
             <span>INDUSTRY CREDENTIALS & TECHNICAL TRAINING</span>
           </div>
@@ -58,7 +58,7 @@ export const Certifications: React.FC = () => {
             return (
               <div
                 key={cert.id}
-                className="rounded-2xl bg-cyber-surface/80 border border-cyber-cardBorder hover:border-cyber-green/40 p-6 flex flex-col justify-between transition-all duration-300 group shadow-lg"
+                className="rounded-2xl bg-gradient-to-br from-white/5 to-white/10 border border-white/10 hover:border-purple-500/40 p-6 flex flex-col justify-between transition-all duration-300 group shadow-lg backdrop-blur-md"
               >
                 <div>
                   {/* Status & Category Bar */}
@@ -87,7 +87,7 @@ export const Certifications: React.FC = () => {
                   </div>
 
                   {/* Title & Issuer */}
-                  <h3 className="font-display font-bold text-lg text-white group-hover:text-cyber-green transition-colors leading-snug">
+                  <h3 className="font-display font-bold text-lg text-white group-hover:text-purple-300 transition-colors leading-snug">
                     {cert.title}
                   </h3>
                   
@@ -102,12 +102,12 @@ export const Certifications: React.FC = () => {
                 </div>
 
                 {/* Card Action / Verification Placeholder */}
-                <div className="mt-6 pt-4 border-t border-cyber-cardBorder/60 flex items-center justify-between">
+                <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
                   <button
                     onClick={() => setSelectedCert(cert)}
-                    className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-300 hover:text-cyber-green transition-colors"
+                    className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-300 hover:text-purple-300 transition-colors"
                   >
-                    <Info className="w-3.5 h-3.5 text-cyber-green" />
+                    <Info className="w-3.5 h-3.5 text-purple-400" />
                     <span>View Credential Details</span>
                   </button>
 
@@ -121,9 +121,9 @@ export const Certifications: React.FC = () => {
         </div>
 
         {/* User Configuration & Upload Placeholder Notice */}
-        <div className="mt-12 p-5 rounded-2xl bg-cyber-surface/60 border border-cyber-cardBorder/80 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-12 p-5 rounded-2xl bg-gradient-to-br from-white/5 to-white/10 border border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 backdrop-blur-md">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl bg-cyber-card border border-cyber-cardBorder text-cyber-blue shrink-0">
+            <div className="p-2.5 rounded-xl bg-black/40 border border-white/10 text-purple-400 shrink-0">
               <Upload className="w-5 h-5" />
             </div>
             <div>
@@ -131,7 +131,7 @@ export const Certifications: React.FC = () => {
                 Configurable Certificate Vault
               </h4>
               <p className="text-xs text-slate-400 font-mono mt-0.5">
-                Certificate images and external verification badges can be configured in <code className="text-cyber-green bg-cyber-card px-1 py-0.5 rounded">src/data/certifications.ts</code>. No unverified IDs are generated.
+                Certificate images and external verification badges can be configured in <code className="text-purple-300 bg-black/40 px-1 py-0.5 rounded border border-white/10">src/data/certifications.ts</code>. No unverified IDs are generated.
               </p>
             </div>
           </div>
@@ -139,10 +139,10 @@ export const Certifications: React.FC = () => {
 
         {/* Modal for credential view / info */}
         {selectedCert && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-            <div className="relative w-full max-w-lg bg-cyber-surface border border-cyber-cardBorder rounded-2xl shadow-2xl p-6 font-mono text-xs">
-              <div className="flex justify-between items-center border-b border-cyber-cardBorder pb-3">
-                <span className="text-cyber-green font-bold text-sm">Credential Information</span>
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
+            <div className="relative w-full max-w-lg bg-[#0e061a] border border-white/10 rounded-2xl shadow-2xl p-6 font-mono text-xs text-slate-200">
+              <div className="flex justify-between items-center border-b border-white/10 pb-3">
+                <span className="text-purple-300 font-bold text-sm">Credential Information</span>
                 <button onClick={() => setSelectedCert(null)} className="p-1 hover:text-white text-slate-400">
                   <X className="w-5 h-5" />
                 </button>
@@ -153,15 +153,15 @@ export const Certifications: React.FC = () => {
                 <p><strong className="text-white">Issuing Organization:</strong> {selectedCert.issuer}</p>
                 <p><strong className="text-white">Status:</strong> {selectedCert.status}</p>
                 <p><strong className="text-white">Curriculum Focus:</strong> {selectedCert.verificationNote}</p>
-                <div className="p-3 bg-cyber-card rounded-lg border border-cyber-cardBorder text-slate-400 text-[11px]">
+                <div className="p-3 bg-black/40 rounded-xl border border-white/10 text-slate-400 text-[11px]">
                   [i] Formal certificate images and verification hashes can be attached directly to the portfolio repository upon credential issuance.
                 </div>
               </div>
 
-              <div className="pt-4 mt-4 border-t border-cyber-cardBorder flex justify-end">
+              <div className="pt-4 mt-4 border-t border-white/10 flex justify-end">
                 <button
                   onClick={() => setSelectedCert(null)}
-                  className="px-4 py-1.5 rounded-lg bg-cyber-card border border-cyber-cardBorder text-slate-200 hover:text-white"
+                  className="px-4 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white transition-colors"
                 >
                   Close
                 </button>

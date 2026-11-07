@@ -21,42 +21,62 @@ export const GithubSection: React.FC = () => {
   const fallbackRepos: GitHubRepo[] = [
     {
       id: 101,
-      name: 'Advanced-Web-Vulnerability-Scanner',
-      description: 'Python-based automated security testing scanner with configurable crawler, SQLi and XSS detection modules.',
-      html_url: 'https://github.com/svw8c64y7r-dotcom',
+      name: 'AIpentestfi',
+      description: 'AI-assisted automated web vulnerability assessment & penetration testing scanner utilizing Python, requests, and payload generators.',
+      html_url: 'https://github.com/svw8c64y7r-dotcom/AIpentestfi',
+      language: 'Python',
+      stargazers_count: 3,
+      forks_count: 1,
+      updated_at: new Date().toISOString()
+    },
+    {
+      id: 102,
+      name: 'eponew',
+      description: 'Production full-stack web application engineered with modular architecture, RESTful API endpoints, and secure database persistence.',
+      html_url: 'https://github.com/svw8c64y7r-dotcom/eponew',
+      language: 'Java',
+      stargazers_count: 2,
+      forks_count: 1,
+      updated_at: new Date().toISOString()
+    },
+    {
+      id: 103,
+      name: 'network-forensic',
+      description: 'Digital forensics & incident response tools for PCAP network packet dissection, protocol telemetry, and anomalous traffic triage.',
+      html_url: 'https://github.com/svw8c64y7r-dotcom/network-forensic',
+      language: 'Python',
+      stargazers_count: 4,
+      forks_count: 1,
+      updated_at: new Date().toISOString()
+    },
+    {
+      id: 104,
+      name: 'red_teaming',
+      description: 'Offensive security reconnaissance scripts, custom payload deliveries, and adversary emulation tooling developed in Python and Bash.',
+      html_url: 'https://github.com/svw8c64y7r-dotcom/red_teaming',
       language: 'Python',
       stargazers_count: 5,
       forks_count: 2,
       updated_at: new Date().toISOString()
     },
     {
-      id: 102,
-      name: 'Epoteck-Fullstack-App',
-      description: 'Enterprise full-stack web application designed with Spring Framework, REST APIs, and secure authentication architecture.',
-      html_url: 'https://github.com/svw8c64y7r-dotcom',
-      language: 'Java',
-      stargazers_count: 4,
-      forks_count: 1,
-      updated_at: new Date().toISOString()
-    },
-    {
-      id: 103,
-      name: 'Security-Automation-Playwright',
-      description: 'End-to-end browser automation workflows and automated security verification scripts with Playwright.',
-      html_url: 'https://github.com/svw8c64y7r-dotcom',
+      id: 105,
+      name: 'portfolio',
+      description: 'High-performance interactive cybersecurity portfolio website engineered with React, TypeScript, Tailwind CSS, and SOC tooling.',
+      html_url: 'https://github.com/svw8c64y7r-dotcom/portfolio',
       language: 'TypeScript',
-      stargazers_count: 3,
+      stargazers_count: 2,
       forks_count: 1,
       updated_at: new Date().toISOString()
     },
     {
-      id: 104,
-      name: 'DFIR-Analysis-Utilities',
-      description: 'Forensic parsing helpers for memory dump triage, Windows event log analysis, and network PCAP inspection.',
-      html_url: 'https://github.com/svw8c64y7r-dotcom',
-      language: 'Python',
-      stargazers_count: 6,
-      forks_count: 2,
+      id: 106,
+      name: 'Epoteck_Report',
+      description: 'Comprehensive vulnerability assessment deliverable templates, audit logs, and remediation guidelines for enterprise client applications.',
+      html_url: 'https://github.com/svw8c64y7r-dotcom/Epoteck_Report',
+      language: 'Markdown',
+      stargazers_count: 1,
+      forks_count: 1,
       updated_at: new Date().toISOString()
     }
   ];

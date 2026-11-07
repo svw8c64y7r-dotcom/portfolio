@@ -144,7 +144,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
               </div>
             </div>
 
-            {/* Main Headline with circle.png annotation */}
+            {/* Main Headline */}
             <div className="space-y-3">
               <p className="text-xl sm:text-2xl text-purple-300 font-display font-medium">
                 A Cybersecurity Specialist who
@@ -152,15 +152,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight font-display">
                 Securing Digital
                 <br />
-                <span className="relative inline-block my-1">
-                  <img
-                    src="/assets/circle.png"
-                    alt="Circle highlight"
-                    className="absolute inset-0 w-full h-full scale-125 object-contain pointer-events-none opacity-85"
-                  />
-                  <span className="bg-gradient-to-r from-purple-400 via-violet-300 to-cyber-blue bg-clip-text text-transparent relative z-10 px-3">
-                    Infrastructure
-                  </span>
+                <span className="bg-gradient-to-r from-purple-400 via-violet-300 to-cyber-blue bg-clip-text text-transparent">
+                  Infrastructure
                 </span>
                 <br />
                 One Vulnerability at a Time.
