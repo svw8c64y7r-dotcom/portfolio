@@ -78,7 +78,8 @@ export const Terminal: React.FC<TerminalProps> = ({ isStandalone = true }) => {
   const availableCommands = [
     'help', 'about', 'skills', 'projects', 'vapt', 'blog', 'experience', 'achievements',
     'certifications', 'education', 'github', 'linkedin', 'contact', 'resume',
-    'clear', 'banner', 'status', 'mitre', 'cve', 'soc', 'ping', 'whoami', 'date'
+    'nmap', 'cve', 'cat', 'sudo', 'hash',
+    'clear', 'banner', 'status', 'mitre', 'soc', 'ping', 'whoami', 'date'
   ];
 
   useEffect(() => {
@@ -167,6 +168,10 @@ export const Terminal: React.FC<TerminalProps> = ({ isStandalone = true }) => {
               <div><span className="text-purple-400 font-bold inline-block w-28">linkedin</span> - LinkedIn professional connection</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">contact</span> - Verified communication channels</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">resume</span> - Download official 159 KB PDF</div>
+              <div><span className="text-purple-400 font-bold inline-block w-28">nmap</span> - Simulated perimeter port scan</div>
+              <div><span className="text-purple-400 font-bold inline-block w-28">cve</span> - Critical CVE database & mapping</div>
+              <div><span className="text-purple-400 font-bold inline-block w-28">cat &lt;file&gt;</span> - Read file (flag.txt, resume.txt)</div>
+              <div><span className="text-purple-400 font-bold inline-block w-28">sudo</span> - Attempt privilege escalation check</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">mitre</span> - MITRE ATT&CK framework coverage</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">soc</span> - Simulated live SOC defense telemetry</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">status</span> - Inspect system defense parameters</div>
@@ -489,6 +494,113 @@ export const Terminal: React.FC<TerminalProps> = ({ isStandalone = true }) => {
         );
         break;
 
+      case 'nmap':
+        outputContent = (
+          <div className="space-y-1 text-xs font-mono text-slate-300 whitespace-pre leading-relaxed">
+            <span className="text-purple-400 font-bold">Starting Nmap 7.94 ( https://nmap.org ) at {new Date().toLocaleTimeString()}</span>
+            <div>Nmap scan report for sri-ragav-surya.internal (10.0.4.42)</div>
+            <div>Host is up (0.00038s latency).</div>
+            <div>Not shown: 996 closed tcp ports (reset)</div>
+            <div className="text-cyber-green pt-1 font-bold">
+              PORT     STATE    SERVICE       VERSION<br />
+              80/tcp   open     http          Vercel High-Performance Edge Node<br />
+              443/tcp  open     ssl/https     TLS 1.3 (Strict HSTS Enforced)<br />
+              22/tcp   filtered ssh           OpenSSH 9.6p1 (Bastion Protected)<br />
+              8080/tcp filtered http-proxy    WAF Application Shield Active
+            </div>
+            <div className="text-slate-400 pt-1">
+              Device type: Security Operations Node | OS: Linux 6.8 hardened kernel<br />
+              Nmap done: 1 IP address (1 host up) scanned in 0.42 seconds
+            </div>
+          </div>
+        );
+        break;
+
+      case 'cve':
+        outputContent = (
+          <div className="space-y-2 text-xs font-mono text-slate-300">
+            <div className="text-purple-400 font-bold text-sm">=== CRITICAL VULNERABILITY INTELLIGENCE ===</div>
+            <div className="p-2 bg-black/40 border border-red-500/30 rounded-lg">
+              <span className="text-red-400 font-bold">CVE-2021-44228 (Log4Shell)</span> - CVSS 10.0 [Critical]
+              <p className="text-slate-400 text-[11px] mt-0.5">JNDI lookup injection in Apache Log4j2 leading to unauthenticated RCE.</p>
+            </div>
+            <div className="p-2 bg-black/40 border border-orange-500/30 rounded-lg">
+              <span className="text-orange-400 font-bold">CVE-2022-22965 (Spring4Shell)</span> - CVSS 9.8 [Critical]
+              <p className="text-slate-400 text-[11px] mt-0.5">RCE via Data Binding parameter binding flaw in Spring Framework on JDK 9+.</p>
+            </div>
+            <div className="p-2 bg-black/40 border border-amber-500/30 rounded-lg">
+              <span className="text-amber-400 font-bold">OWASP A01:2021 (Broken Access Control)</span> - #1 Web Threat
+              <p className="text-slate-400 text-[11px] mt-0.5">IDOR/BOLA, privilege escalation, and tenancy bypass across distributed APIs.</p>
+            </div>
+          </div>
+        );
+        break;
+
+      case 'cat':
+        const targetFile = args[1] || '';
+        if (targetFile === 'flag.txt') {
+          outputContent = (
+            <div className="text-xs font-mono text-emerald-400 bg-emerald-950/30 p-2.5 rounded-lg border border-emerald-500/30">
+              [!] CTF_SOLVE_ACCEPTED: FLAG&#123;sri_ragav_surya_defcon_ctf_ranked_top50&#125;
+            </div>
+          );
+        } else if (targetFile === 'resume.txt') {
+          outputContent = (
+            <div className="text-xs font-mono text-slate-300 space-y-1">
+              <p><strong className="text-purple-300">NAME:</strong> {personalData.name}</p>
+              <p><strong className="text-purple-300">ROLE:</strong> {personalData.subtitle}</p>
+              <p><strong className="text-purple-300">DEGREE:</strong> M.Sc. Information Security and Digital Forensics (8.3 CGPA)</p>
+              <p><strong className="text-purple-300">EXPERIENCE:</strong> Cyber Security Engineer @ Pitowings (Feb - May 2025)</p>
+              <p><strong className="text-purple-300">ACHIEVEMENTS:</strong> 4th Place International CTF | Top 50 DEFCON CTF</p>
+            </div>
+          );
+        } else if (targetFile === 'contact.txt') {
+          outputContent = (
+            <div className="text-xs font-mono text-slate-300 space-y-1">
+              <p>Email: <span className="text-cyber-green">{personalData.email}</span></p>
+              <p>Phone: <span className="text-cyber-blue">{personalData.phone}</span></p>
+              <p>Location: Coimbatore, Tamil Nadu, India</p>
+              <p>PGP Fingerprint: 0x8870726999SURYA</p>
+            </div>
+          );
+        } else {
+          outputContent = (
+            <div className="text-xs font-mono text-slate-400">
+              cat: {targetFile ? targetFile : 'missing operand'}: No such file.<br />
+              <span className="text-purple-300">Available files:</span> flag.txt, resume.txt, contact.txt
+            </div>
+          );
+        }
+        break;
+
+      case 'sudo':
+        outputContent = (
+          <div className="text-xs font-mono text-red-400 bg-red-950/20 p-2.5 rounded-lg border border-red-500/30">
+            [!] ACCESS DENIED: User &apos;ragav&apos; is not in the sudoers file.<br />
+            This incident has been securely transmitted to the Wazuh SIEM audit log.
+          </div>
+        );
+        break;
+
+      case 'hash':
+        const stringToHash = args.slice(1).join(' ') || 'SriRagavSuryaCyberSecurity2026';
+        let hashSim = 0;
+        for (let i = 0; i < stringToHash.length; i++) {
+          hashSim = ((hashSim << 5) - hashSim) + stringToHash.charCodeAt(i);
+          hashSim |= 0;
+        }
+        const hex = Math.abs(hashSim).toString(16).padStart(8, '0');
+        outputContent = (
+          <div className="text-xs font-mono text-slate-300 space-y-1">
+            <div>Input: <span className="text-purple-300 font-bold">&quot;{stringToHash}&quot;</span></div>
+            <div>Algorithm: <span className="text-cyber-blue">SHA-256 (Simulated Digest)</span></div>
+            <div className="text-cyber-green font-bold">
+              Hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852{hex}
+            </div>
+          </div>
+        );
+        break;
+
       default:
         outputContent = (
           <div className="text-xs font-mono text-red-400">
@@ -544,7 +656,7 @@ export const Terminal: React.FC<TerminalProps> = ({ isStandalone = true }) => {
     }
   };
 
-  const quickCommands = ['help', 'about', 'skills', 'projects', 'vapt', 'blog', 'experience', 'achievements', 'mitre', 'soc', 'contact', 'resume', 'clear'];
+  const quickCommands = ['help', 'about', 'skills', 'projects', 'vapt', 'blog', 'nmap', 'cve', 'experience', 'achievements', 'mitre', 'soc', 'contact', 'resume', 'clear'];
 
   return (
     <div className={`w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-[#0e061a]/95 backdrop-blur-md font-mono transition-all duration-300 ${isMaximized ? 'fixed inset-4 z-50 flex flex-col h-[calc(100vh-2rem)]' : 'h-[520px] flex flex-col'}`}>

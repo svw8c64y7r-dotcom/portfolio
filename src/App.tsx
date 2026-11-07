@@ -24,6 +24,7 @@ export const App: React.FC = () => {
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isNotFound, setIsNotFound] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     if (window.location.pathname !== '/' && window.location.pathname !== '') {
@@ -37,8 +38,21 @@ export const App: React.FC = () => {
       }
     };
 
+    const handleScroll = () => {
+      const totalScroll = document.documentElement.scrollTop;
+      const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      if (windowHeight > 0) {
+        const scrollPercent = (totalScroll / windowHeight) * 100;
+        setScrollProgress(Math.min(100, Math.max(0, scrollPercent)));
+      }
+    };
+
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   if (isNotFound) {
@@ -50,6 +64,16 @@ export const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#110720] text-slate-100 flex flex-col font-sans selection:bg-purple-500/30 selection:text-purple-300">
+      {/* Top Cyber Scroll Progress Bar */}
+      <div 
+        className="fixed top-0 left-0 h-1 bg-gradient-to-r from-purple-500 via-cyber-blue to-cyber-green z-50 transition-all duration-75 shadow-neon-purple pointer-events-none"
+        style={{ width: `${scrollProgress}%` }}
+        role="progressbar"
+        aria-valuenow={Math.round(scrollProgress)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      />
+
       {/* Real-time Simulated SOC HUD Bar */}
       <SocStatusBar onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
 

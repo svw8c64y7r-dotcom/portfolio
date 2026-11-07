@@ -12,6 +12,8 @@ import {
   Terminal,
   Activity,
   Layers,
+  Printer,
+  FileText,
   X
 } from 'lucide-react';
 import { vaptAssessmentData, VulnerabilityFinding } from '../data/vaptReports';
@@ -19,6 +21,7 @@ import { vaptAssessmentData, VulnerabilityFinding } from '../data/vaptReports';
 export const VaptReport: React.FC = () => {
   const [selectedFinding, setSelectedFinding] = useState<VulnerabilityFinding | null>(null);
   const [activeSeverityFilter, setActiveSeverityFilter] = useState<string>('All');
+  const [showExecutiveSummary, setShowExecutiveSummary] = useState(false);
 
   const assessment = vaptAssessmentData;
 
@@ -61,17 +64,24 @@ export const VaptReport: React.FC = () => {
             </p>
           </div>
 
-          <div className="flex items-center gap-3 self-start md:self-end">
-            <a
-              href={assessment.reportDownloadUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+          <div className="flex flex-wrap items-center gap-3 self-start md:self-end">
+            <button
+              onClick={() => setShowExecutiveSummary(true)}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-bold bg-white/10 hover:bg-white/15 border border-white/20 text-white transition-all shadow-md"
+            >
+              <FileText className="w-4 h-4 text-purple-400" />
+              <span>Executive Summary</span>
+            </button>
+            <button
+              onClick={() => {
+                setShowExecutiveSummary(true);
+                setTimeout(() => window.print(), 300);
+              }}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-bold bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:opacity-90 transition-all shadow-neon-purple"
             >
-              <Download className="w-4 h-4" />
-              <span>View Report Deliverable</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </a>
+              <Printer className="w-4 h-4" />
+              <span>Print / Save PDF</span>
+            </button>
           </div>
         </div>
 
@@ -304,6 +314,172 @@ export const VaptReport: React.FC = () => {
                   className="px-5 py-2 rounded-xl text-xs font-mono font-medium bg-white/10 hover:bg-white/20 text-white transition-colors"
                 >
                   Close Finding
+                </button>
+              </div>
+
+            </div>
+          </div>
+        )}
+
+        {/* Executive Summary Modal */}
+        {showExecutiveSummary && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
+            <div className="relative w-full max-w-4xl max-h-[90vh] bg-[#0c0517] border border-purple-500/30 rounded-2xl shadow-2xl overflow-y-auto font-sans flex flex-col text-slate-100">
+              
+              {/* Modal Header */}
+              <div className="sticky top-0 z-10 bg-[#0c0517]/95 backdrop-blur px-6 py-4 border-b border-white/10 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <ShieldAlert className="w-5 h-5 text-purple-400" />
+                  <span className="font-display font-bold text-white text-base">
+                    Executive Deliverable: VAPT Security Assessment Report
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => window.print()}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-700 text-white text-xs font-mono font-medium transition-colors"
+                  >
+                    <Printer className="w-3.5 h-3.5" />
+                    <span>Print Report</span>
+                  </button>
+                  <button
+                    onClick={() => setShowExecutiveSummary(false)}
+                    className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Printable Document Body */}
+              <div className="p-6 sm:p-8 space-y-6 text-slate-200">
+                
+                {/* Document Banner */}
+                <div className="p-6 rounded-xl bg-purple-950/30 border border-purple-500/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                  <div>
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-cyber-green block mb-1">
+                      AUDIT STATUS: FINAL EXECUTIVE DELIVERABLE
+                    </span>
+                    <h3 className="text-xl font-bold font-display text-white">
+                      {assessment.assessmentTitle}
+                    </h3>
+                    <p className="text-xs font-mono text-slate-400 mt-1">
+                      Lead Security Assessor: <span className="text-purple-300 font-semibold">Sri Ragav Surya A</span>
+                    </p>
+                  </div>
+                  <div className="text-left md:text-right font-mono text-xs text-slate-300 shrink-0">
+                    <div>Date: <span className="text-white">{assessment.dateConducted}</span></div>
+                    <div>Methodology: <span className="text-purple-300">{assessment.methodology}</span></div>
+                    <div>Target Scope: <span className="text-cyber-blue">{assessment.targetScope}</span></div>
+                  </div>
+                </div>
+
+                {/* Executive Narrative */}
+                <div>
+                  <h4 className="text-sm font-mono font-bold uppercase tracking-wider text-purple-300 mb-2">
+                    1. Executive Summary & Assessment Context
+                  </h4>
+                  <div className="p-4 rounded-xl bg-white/5 border border-white/10 text-xs sm:text-sm text-slate-300 leading-relaxed space-y-2">
+                    <p>{assessment.summary}</p>
+                    <p>
+                      During the assessment window, multiple vulnerability classes were rigorously tested against OWASP Top 10 standards. All findings below were manually reproduced with proof-of-concept exploits, scored using CVSS v3.1 base metrics, and accompanied by actionable remediation engineering guidelines.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Risk Distribution Matrix */}
+                <div>
+                  <h4 className="text-sm font-mono font-bold uppercase tracking-wider text-purple-300 mb-3">
+                    2. Risk Severity Distribution
+                  </h4>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono text-center">
+                    <div className="p-3 rounded-xl bg-red-950/20 border border-red-500/30">
+                      <div className="text-2xl font-bold text-red-400">{assessment.statistics.critical}</div>
+                      <div className="text-[11px] text-slate-400 uppercase">Critical Severity</div>
+                    </div>
+                    <div className="p-3 rounded-xl bg-orange-950/20 border border-orange-500/30">
+                      <div className="text-2xl font-bold text-orange-400">{assessment.statistics.high}</div>
+                      <div className="text-[11px] text-slate-400 uppercase">High Severity</div>
+                    </div>
+                    <div className="p-3 rounded-xl bg-amber-950/20 border border-amber-500/30">
+                      <div className="text-2xl font-bold text-amber-300">{assessment.statistics.medium}</div>
+                      <div className="text-[11px] text-slate-400 uppercase">Medium Severity</div>
+                    </div>
+                    <div className="p-3 rounded-xl bg-blue-950/20 border border-blue-500/30">
+                      <div className="text-2xl font-bold text-blue-300">{assessment.statistics.low}</div>
+                      <div className="text-[11px] text-slate-400 uppercase">Low / Info</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Findings Table */}
+                <div>
+                  <h4 className="text-sm font-mono font-bold uppercase tracking-wider text-purple-300 mb-3">
+                    3. Detailed Findings Registry
+                  </h4>
+                  <div className="overflow-x-auto rounded-xl border border-white/10">
+                    <table className="w-full text-left text-xs font-mono">
+                      <thead className="bg-white/5 border-b border-white/10 text-slate-400 uppercase text-[10px]">
+                        <tr>
+                          <th className="p-3">Finding ID</th>
+                          <th className="p-3">Vulnerability Title</th>
+                          <th className="p-3">Severity</th>
+                          <th className="p-3">CVSS v3.1</th>
+                          <th className="p-3">Affected Endpoint</th>
+                          <th className="p-3">Remediation Status</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-white/5 text-slate-300">
+                        {assessment.findings.map(f => (
+                          <tr key={f.id} className="hover:bg-white/5">
+                            <td className="p-3 font-bold text-purple-300">{f.id}</td>
+                            <td className="p-3 text-white font-medium">{f.title}</td>
+                            <td className="p-3">
+                              <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${getSeverityStyle(f.severity)}`}>
+                                {f.severity}
+                              </span>
+                            </td>
+                            <td className="p-3 text-amber-300 font-bold">{f.cvssScore}</td>
+                            <td className="p-3 text-slate-400">{f.affectedComponent}</td>
+                            <td className="p-3 text-cyber-green">{f.status}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* Key Strategic Recommendations */}
+                <div>
+                  <h4 className="text-sm font-mono font-bold uppercase tracking-wider text-purple-300 mb-2">
+                    4. Strategic Security Directives
+                  </h4>
+                  <ul className="space-y-2 text-xs font-mono text-slate-300">
+                    <li className="p-3 rounded-xl bg-white/5 border border-white/5 flex items-start gap-2">
+                      <span className="text-cyber-green font-bold">[1]</span>
+                      <span>Enforce server-side tenancy boundary checks across all object-level API endpoints rather than client-trusted ID parameters.</span>
+                    </li>
+                    <li className="p-3 rounded-xl bg-white/5 border border-white/5 flex items-start gap-2">
+                      <span className="text-cyber-green font-bold">[2]</span>
+                      <span>Harden authentication cookies with <code>HttpOnly</code>, <code>Secure</code>, and strict session invalidation upon logout.</span>
+                    </li>
+                    <li className="p-3 rounded-xl bg-white/5 border border-white/5 flex items-start gap-2">
+                      <span className="text-cyber-green font-bold">[3]</span>
+                      <span>Deploy parameterized queries and contextual output encoding to eradicate SQL injection and Cross-Site Scripting vectors.</span>
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
+
+              {/* Modal Footer */}
+              <div className="sticky bottom-0 bg-[#0c0517]/95 backdrop-blur px-6 py-4 border-t border-white/10 flex items-center justify-between">
+                <span className="text-xs font-mono text-slate-400">Sri Ragav Surya A • Lead Penetration Tester</span>
+                <button
+                  onClick={() => setShowExecutiveSummary(false)}
+                  className="px-5 py-2 rounded-xl text-xs font-mono font-medium bg-white/10 hover:bg-white/20 text-white transition-colors"
+                >
+                  Close Document
                 </button>
               </div>
 

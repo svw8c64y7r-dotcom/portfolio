@@ -11,7 +11,9 @@ import {
   CheckCircle,
   Sparkles,
   Copy,
-  Check
+  Check,
+  Crosshair,
+  X
 } from 'lucide-react';
 import { skillGroups } from '../data/skills';
 import { SkillGroup, SkillItem } from '../types';
@@ -20,6 +22,64 @@ export const Skills: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [copiedMatrix, setCopiedMatrix] = useState(false);
+  const [showMitreModal, setShowMitreModal] = useState(false);
+
+  const mitreTactics = [
+    {
+      id: 'TA0043',
+      tactic: 'Reconnaissance',
+      techniques: [
+        { id: 'T1595', name: 'Active Scanning', tool: 'Nmap, Gobuster' },
+        { id: 'T1592', name: 'Gather Victim Host Info', tool: 'OSINT, DNS Enum' },
+        { id: 'T1590', name: 'Gather Victim Network Info', tool: 'Wireshark, Whois' }
+      ]
+    },
+    {
+      id: 'TA0001',
+      tactic: 'Initial Access',
+      techniques: [
+        { id: 'T1190', name: 'Exploit Public-Facing App', tool: 'Burp Suite, OWASP WSTG' },
+        { id: 'T1566', name: 'Phishing Simulation & Defense', tool: 'SecOps SEDP' },
+        { id: 'T1078', name: 'Valid Accounts Auditing', tool: 'Auth & JWT Testing' }
+      ]
+    },
+    {
+      id: 'TA0002',
+      tactic: 'Execution',
+      techniques: [
+        { id: 'T1059.006', name: 'Python Automation', tool: 'Security Scripts & Scanners' },
+        { id: 'T1059.004', name: 'Unix Shell / Bash', tool: 'Kali Linux CLI' },
+        { id: 'T1203', name: 'Exploitation Testing', tool: 'Metasploit Framework' }
+      ]
+    },
+    {
+      id: 'TA0005',
+      tactic: 'Defense Evasion',
+      techniques: [
+        { id: 'T1055', name: 'Process Injection Analysis', tool: 'Volatility 3 (DFIR)' },
+        { id: 'T1070', name: 'Indicator Removal Detection', tool: 'Windows Event Logs' },
+        { id: 'T1027', name: 'Obfuscated Payloads', tool: 'YARA Rules & SIEM' }
+      ]
+    },
+    {
+      id: 'TA0007',
+      tactic: 'Discovery',
+      techniques: [
+        { id: 'T1046', name: 'Network Service Discovery', tool: 'Nmap Stealth Scans' },
+        { id: 'T1083', name: 'File & Directory Discovery', tool: 'Gobuster, Dirb' },
+        { id: 'T1087', name: 'Account Discovery', tool: 'Active Directory Labs' }
+      ]
+    },
+    {
+      id: 'TA0010',
+      tactic: 'Exfiltration & Forensics',
+      techniques: [
+        { id: 'T1041', name: 'Exfiltration Over C2', tool: 'PCAP & Zeek Traffic Analysis' },
+        { id: 'T1005', name: 'Data from Local System', tool: 'Autopsy & Disk Forensics' },
+        { id: 'T1048', name: 'Exfiltration Over Protocol', tool: 'Wireshark Protocol Dumps' }
+      ]
+    }
+  ];
 
   const categoryIcons: Record<string, React.ReactNode> = {
     'offensive-security': <ShieldAlert className="w-4 h-4 text-purple-400" />,
@@ -106,6 +166,15 @@ export const Skills: React.FC = () => {
             >
               {copiedMatrix ? <Check className="w-3.5 h-3.5 text-cyber-green" /> : <Copy className="w-3.5 h-3.5 text-purple-400" />}
               <span className="hidden sm:inline">{copiedMatrix ? 'Copied' : 'Export Matrix'}</span>
+            </button>
+
+            <button
+              onClick={() => setShowMitreModal(true)}
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-mono font-bold bg-purple-500/15 border border-purple-500/30 text-purple-300 hover:bg-purple-500/25 transition-all shrink-0"
+              title="View MITRE ATT&CK Matrix Mapping"
+            >
+              <Crosshair className="w-3.5 h-3.5 text-cyber-green" />
+              <span>MITRE Matrix</span>
             </button>
           </div>
         </div>
@@ -222,6 +291,82 @@ export const Skills: React.FC = () => {
             <span className="px-2 py-0.5 rounded bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[10px]">Hands-On</span>
           </div>
         </div>
+
+        {/* MITRE ATT&CK Matrix Interactive Modal */}
+        {showMitreModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
+            <div className="relative w-full max-w-4xl max-h-[90vh] bg-[#0c0517] border border-cyber-green/40 rounded-2xl shadow-2xl overflow-y-auto font-sans flex flex-col text-slate-100">
+              
+              {/* Modal Header */}
+              <div className="sticky top-0 z-10 bg-[#0c0517]/95 backdrop-blur px-6 py-4 border-b border-white/10 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Crosshair className="w-5 h-5 text-cyber-green" />
+                  <span className="font-display font-bold text-white text-base">
+                    MITRE ATT&CK® Enterprise Tactical Coverage Matrix
+                  </span>
+                </div>
+                <button
+                  onClick={() => setShowMitreModal(false)}
+                  className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Modal Body */}
+              <div className="p-6 sm:p-8 space-y-6">
+                <div className="p-4 rounded-xl bg-purple-950/20 border border-purple-500/30 text-xs font-mono text-slate-300">
+                  <span className="text-purple-300 font-bold block mb-1">CANDIDATE COVERAGE STANDARD</span>
+                  Tactical mapping of Sri Ragav Surya&apos;s offensive penetration testing, defensive SOC telemetry, and forensic analysis capabilities aligned with the MITRE ATT&CK Enterprise Framework.
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {mitreTactics.map(tactic => (
+                    <div key={tactic.id} className="p-4 rounded-xl bg-white/5 border border-white/10 flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[10px] font-mono text-cyber-green px-1.5 py-0.5 rounded bg-cyber-green/10 border border-cyber-green/30">
+                            {tactic.id}
+                          </span>
+                          <span className="text-[10px] font-mono text-slate-400">TACTIC</span>
+                        </div>
+                        <h4 className="font-display font-bold text-sm text-white mb-3">
+                          {tactic.tactic}
+                        </h4>
+
+                        <div className="space-y-2">
+                          {tactic.techniques.map(tech => (
+                            <div key={tech.id} className="p-2 rounded-lg bg-black/40 border border-white/5">
+                              <div className="flex items-center justify-between text-xs font-mono text-purple-300 font-medium">
+                                <span>{tech.name}</span>
+                                <span className="text-[10px] text-slate-500">{tech.id}</span>
+                              </div>
+                              <div className="text-[10px] font-mono text-slate-400 mt-0.5">
+                                Verified Tools: <span className="text-cyber-blue">{tech.tool}</span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Modal Footer */}
+              <div className="sticky bottom-0 bg-[#0c0517]/95 backdrop-blur px-6 py-4 border-t border-white/10 flex items-center justify-between">
+                <span className="text-xs font-mono text-slate-400">Aligned with MITRE ATT&CK v14</span>
+                <button
+                  onClick={() => setShowMitreModal(false)}
+                  className="px-5 py-2 rounded-xl text-xs font-mono font-medium bg-white/10 hover:bg-white/20 text-white transition-colors"
+                >
+                  Close Matrix
+                </button>
+              </div>
+
+            </div>
+          </div>
+        )}
 
       </div>
     </section>
