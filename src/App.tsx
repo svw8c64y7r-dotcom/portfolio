@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
+import { SocStatusBar } from './components/SocStatusBar';
+import { CommandPalette } from './components/CommandPalette';
 import { Hero } from './sections/Hero';
 import { About } from './sections/About';
 import { Skills } from './sections/Skills';
@@ -18,13 +20,23 @@ import { NotFound } from './components/NotFound';
 
 export const App: React.FC = () => {
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isNotFound, setIsNotFound] = useState(false);
 
   useEffect(() => {
-    // Simple 404 simulation if someone loads a path other than root
     if (window.location.pathname !== '/' && window.location.pathname !== '') {
       setIsNotFound(true);
     }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsCommandPaletteOpen(prev => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   if (isNotFound) {
@@ -35,7 +47,10 @@ export const App: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-cyber-bg text-slate-100 flex flex-col font-sans selection:bg-cyber-green/20 selection:text-cyber-green">
+    <div className="min-h-screen bg-[#110720] text-slate-100 flex flex-col font-sans selection:bg-purple-500/30 selection:text-purple-300">
+      {/* Real-time Simulated SOC HUD Bar */}
+      <SocStatusBar onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
+
       {/* Sticky Navigation Bar */}
       <Navbar onOpenResumeModal={() => setIsResumeModalOpen(true)} />
 
@@ -62,6 +77,13 @@ export const App: React.FC = () => {
       <ResumeModal
         isOpen={isResumeModalOpen}
         onClose={() => setIsResumeModalOpen(false)}
+      />
+
+      {/* Global Command Palette (Ctrl+K / Cmd+K) */}
+      <CommandPalette
+        isOpen={isCommandPaletteOpen}
+        onClose={() => setIsCommandPaletteOpen(false)}
+        onOpenResumeModal={() => setIsResumeModalOpen(true)}
       />
     </div>
   );
