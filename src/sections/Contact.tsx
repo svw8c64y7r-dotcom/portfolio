@@ -135,6 +135,30 @@ export const Contact: React.FC = () => {
                   </button>
                 </div>
 
+                {/* Academic Institutional Email Item */}
+                {personalData.academicEmail && (
+                  <div className="p-3 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between group">
+                    <div className="flex items-center gap-3 overflow-hidden">
+                      <div className="p-2 rounded-lg bg-white/5 border border-white/10 text-emerald-400 shrink-0">
+                        <Mail className="w-4 h-4" />
+                      </div>
+                      <div className="truncate">
+                        <span className="text-[10px] font-mono text-slate-400 block uppercase">Academic / Research Email</span>
+                        <a href={`mailto:${personalData.academicEmail}`} className="text-xs sm:text-sm font-mono text-slate-200 hover:text-emerald-400 truncate block">
+                          {personalData.academicEmail}
+                        </a>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => handleCopy(personalData.academicEmail!, 'academicEmail')}
+                      className="p-1.5 text-slate-400 hover:text-emerald-400 transition-colors"
+                      title="Copy Academic Email"
+                    >
+                      {copiedField === 'academicEmail' ? <Check className="w-4 h-4 text-cyber-green" /> : <Copy className="w-4 h-4" />}
+                    </button>
+                  </div>
+                )}
+
                 {/* Phone Item */}
                 <div className="p-3 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between group">
                   <div className="flex items-center gap-3">

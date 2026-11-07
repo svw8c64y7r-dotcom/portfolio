@@ -15,6 +15,7 @@ export const personalData: PersonalInfo = {
   location: "Coimbatore, Tamil Nadu, India",
   phone: "+91 8870726999",
   email: "sriragavsurya@gmail.com",
+  academicEmail: "sriragav@karunya.edu.in",
   linkedin: "https://linkedin.com/in/sri-ragav-surya",
   github: "https://github.com/svw8c64y7r-dotcom",
   status: "DEFENSE_ACTIVE // MONITORING_NOMINAL",

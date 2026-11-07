@@ -19,6 +19,8 @@ import { experienceData } from '../data/experience';
 import { achievementsData } from '../data/achievements';
 import { certificationsData } from '../data/certifications';
 import { educationData } from '../data/education';
+import { vaptAssessmentData, VulnerabilityFinding } from '../data/vaptReports';
+import { blogPostsData, BlogPost } from '../data/blogPosts';
 
 interface HistoryItem {
   id: string;
@@ -74,7 +76,7 @@ export const Terminal: React.FC<TerminalProps> = ({ isStandalone = true }) => {
   };
 
   const availableCommands = [
-    'help', 'about', 'skills', 'projects', 'experience', 'achievements',
+    'help', 'about', 'skills', 'projects', 'vapt', 'blog', 'experience', 'achievements',
     'certifications', 'education', 'github', 'linkedin', 'contact', 'resume',
     'clear', 'banner', 'status', 'mitre', 'cve', 'soc', 'ping', 'whoami', 'date'
   ];
@@ -155,6 +157,8 @@ export const Terminal: React.FC<TerminalProps> = ({ isStandalone = true }) => {
               <div><span className="text-purple-400 font-bold inline-block w-28">about</span> - Professional intro & bio</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">skills</span> - Categorized technical skills matrix</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">projects</span> - Security tools & practical labs</div>
+              <div><span className="text-purple-400 font-bold inline-block w-28">vapt</span> - OWASP assessment reports & CVSS</div>
+              <div><span className="text-purple-400 font-bold inline-block w-28">blog</span> - Security research & technical writeups</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">experience</span> - Cyber Security Engineer @ Pitowings</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">achievements</span> - 4th Place CTF & DEFCON Top 50</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">certifications</span> - Credentials & industry training</div>
@@ -232,6 +236,64 @@ export const Terminal: React.FC<TerminalProps> = ({ isStandalone = true }) => {
                 )}
               </div>
             ))}
+          </div>
+        );
+        break;
+
+      case 'vapt':
+        outputContent = (
+          <div className="space-y-3 text-xs md:text-sm font-mono">
+            <div className="text-purple-400 font-bold text-sm">=== VAPT ASSESSMENT FINDINGS ({vaptAssessmentData.methodology}) ===</div>
+            {vaptAssessmentData.findings.map((f: VulnerabilityFinding) => (
+              <div key={f.id} className="p-2.5 bg-black/40 border border-white/10 rounded-xl">
+                <div className="flex items-center justify-between">
+                  <span className="text-purple-300 font-bold">{f.id} — {f.title}</span>
+                  <span className={`text-[11px] px-2 py-0.5 rounded font-bold ${
+                    f.severity === 'Critical' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
+                    f.severity === 'High' ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30' :
+                    f.severity === 'Medium' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' :
+                    'bg-cyber-blue/20 text-cyber-blue border border-cyber-blue/30'
+                  }`}>
+                    {f.severity} (CVSS {f.cvssScore})
+                  </span>
+                </div>
+                <div className="text-slate-400 text-xs mt-1">
+                  <span className="text-purple-400">Target:</span> {f.affectedComponent} | <span className="text-purple-400">OWASP:</span> {f.category}
+                </div>
+                <p className="text-slate-300 text-xs mt-1">{f.description}</p>
+                <div className="text-[11px] text-cyber-green mt-1">
+                  Remediation: {f.remediation.join(' • ')}
+                </div>
+              </div>
+            ))}
+            <div className="text-xs text-slate-400 pt-1">
+              [+] View full interactive report & download PDF in the <a href="#vapt" className="text-purple-300 underline">#vapt section</a>.
+            </div>
+          </div>
+        );
+        break;
+
+      case 'blog':
+        outputContent = (
+          <div className="space-y-3 text-xs md:text-sm font-mono">
+            <div className="text-purple-400 font-bold text-sm">=== CYBERSECURITY BLOG & RESEARCH ===</div>
+            {blogPostsData.map((post: BlogPost) => (
+              <div key={post.id} className="p-2.5 bg-black/40 border border-white/10 rounded-xl">
+                <div className="flex items-center justify-between">
+                  <span className="text-purple-300 font-bold">{post.title}</span>
+                  <span className="text-[11px] px-2 py-0.5 bg-purple-950/60 border border-purple-500/30 text-purple-300 rounded">
+                    {post.category} • {post.readTime}
+                  </span>
+                </div>
+                <p className="text-slate-300 text-xs mt-1">{post.summary}</p>
+                <div className="text-[11px] text-slate-400 mt-1">
+                  Published: {post.publishedDate} | Tags: {post.tags.join(', ')}
+                </div>
+              </div>
+            ))}
+            <div className="text-xs text-slate-400 pt-1">
+              [+] Read full articles with copyable code blocks in the <a href="#blog" className="text-purple-300 underline">#blog section</a>.
+            </div>
           </div>
         );
         break;
@@ -482,7 +544,7 @@ export const Terminal: React.FC<TerminalProps> = ({ isStandalone = true }) => {
     }
   };
 
-  const quickCommands = ['help', 'about', 'skills', 'projects', 'experience', 'achievements', 'mitre', 'soc', 'contact', 'resume', 'clear'];
+  const quickCommands = ['help', 'about', 'skills', 'projects', 'vapt', 'blog', 'experience', 'achievements', 'mitre', 'soc', 'contact', 'resume', 'clear'];
 
   return (
     <div className={`w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-[#0e061a]/95 backdrop-blur-md font-mono transition-all duration-300 ${isMaximized ? 'fixed inset-4 z-50 flex flex-col h-[calc(100vh-2rem)]' : 'h-[520px] flex flex-col'}`}>

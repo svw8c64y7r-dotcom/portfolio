@@ -7,6 +7,8 @@ import { About } from './sections/About';
 import { Skills } from './sections/Skills';
 import { Experience } from './sections/Experience';
 import { Projects } from './sections/Projects';
+import { VaptReport } from './sections/VaptReport';
+import { Blog } from './sections/Blog';
 import { Achievements } from './sections/Achievements';
 import { Certifications } from './sections/Certifications';
 import { Education } from './sections/Education';
@@ -61,6 +63,8 @@ export const App: React.FC = () => {
         <Skills />
         <Experience />
         <Projects />
+        <VaptReport />
+        <Blog />
         <Achievements />
         <Certifications />
         <Education />

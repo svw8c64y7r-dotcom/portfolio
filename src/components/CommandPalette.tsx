@@ -11,6 +11,8 @@ import {
   FolderGit2, 
   Award, 
   BookOpen, 
+  FileSearch,
+  BookText,
   X,
   ArrowRight,
   ExternalLink
@@ -64,6 +66,26 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       perform: () => {
         onClose();
         window.location.hash = '#terminal';
+      }
+    },
+    {
+      id: 'vapt',
+      title: 'VAPT Security Assessment Reports',
+      subtitle: 'OWASP WSTG v4.2 methodology, CVSS scoring & remediation',
+      icon: <FileSearch className="w-4 h-4 text-rose-400" />,
+      perform: () => {
+        onClose();
+        window.location.hash = '#vapt';
+      }
+    },
+    {
+      id: 'blog',
+      title: 'Cybersecurity Blog & Intelligence',
+      subtitle: 'Technical research in VAPT, DFIR, SOC & GRC',
+      icon: <BookText className="w-4 h-4 text-amber-400" />,
+      perform: () => {
+        onClose();
+        window.location.hash = '#blog';
       }
     },
     {

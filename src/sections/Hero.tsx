@@ -10,7 +10,10 @@ import {
   Briefcase, 
   GraduationCap,
   Sparkles,
-  ExternalLink
+  ExternalLink,
+  Target,
+  FileCheck2,
+  Cpu
 } from 'lucide-react';
 import { personalData } from '../data/personal';
 
@@ -50,6 +53,13 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
     return () => clearTimeout(timer);
   }, [currentText, isDeleting, currentRoleIndex, roles]);
 
+  const verifiedStats = [
+    { label: 'International CTF Standing', value: '4th Place', highlight: 'Worldwide Rank', color: 'text-amber-400' },
+    { label: 'DEFCON CTF Qualification', value: 'Top 50', highlight: 'Global Standing', color: 'text-cyber-green' },
+    { label: 'Postgraduate M.Sc. CGPA', value: '8.3 / 10', highlight: 'Karunya Institute', color: 'text-purple-400' },
+    { label: 'Production VAPT Experience', value: '100%', highlight: 'Manual Verification', color: 'text-cyber-blue' },
+  ];
+
   const highlights = [
     {
       title: '4th Place',
@@ -83,6 +93,15 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
       color: 'text-cyber-blue',
       border: 'border-cyber-blue/30'
     }
+  ];
+
+  const technicalSpecializations = [
+    'Web Application VAPT',
+    'OWASP Top 10 Auditing',
+    'Wazuh SIEM Operations',
+    'Volatile Memory Forensics',
+    'Security Automation',
+    'ISO/IEC 27001 & GRC'
   ];
 
   return (
@@ -128,7 +147,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
             {/* Main Headline with circle.png annotation */}
             <div className="space-y-3">
               <p className="text-xl sm:text-2xl text-purple-300 font-display font-medium">
-                A Security Engineer who
+                A Cybersecurity Specialist who
               </p>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight font-display">
                 Securing Digital
@@ -160,21 +179,20 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
               </div>
             </div>
 
-            {/* Current Affiliation & Education Tag */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 text-xs font-mono text-slate-300">
-              <span className="text-slate-400">Currently:</span>
-              <span className="px-2.5 py-1 rounded-md bg-purple-950/60 border border-purple-500/30 text-purple-300">
-                M.Sc. Information Security & Digital Forensics @ Karunya (8.3 CGPA)
-              </span>
-              <span className="text-slate-500">•</span>
-              <span className="px-2.5 py-1 rounded-md bg-slate-900 border border-slate-700 text-slate-300">
-                Ex-Cyber Security Engineer @ Pitowings
-              </span>
+            {/* Technical Specializations Pills */}
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-1.5 pt-1">
+              {technicalSpecializations.map((spec, idx) => (
+                <span
+                  key={idx}
+                  className="px-2.5 py-1 rounded-lg bg-white/5 border border-white/10 text-xs font-mono text-slate-300 hover:border-purple-500/40 transition-colors"
+                >
+                  {spec}
+                </span>
+              ))}
             </div>
 
             {/* Primary & Secondary Action CTAs */}
             <div className="pt-2 flex flex-wrap gap-3 sm:gap-4 items-center justify-center lg:justify-start">
-              {/* Primary Buttons */}
               <a
                 href="#projects"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-500 hover:to-indigo-500 hover:shadow-neon-purple active:scale-95 transition-all duration-200 font-mono shadow-lg"
@@ -191,7 +209,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
                 <span>Download Resume</span>
               </button>
 
-              {/* Secondary Buttons */}
+              <a
+                href="#vapt"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-medium bg-white/5 border border-white/10 text-slate-200 hover:text-white hover:border-purple-500/50 transition-colors"
+              >
+                <FileCheck2 className="w-4 h-4 text-purple-400" />
+                <span>VAPT Report</span>
+              </a>
+
               <a
                 href={personalData.github}
                 target="_blank"
@@ -200,7 +225,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
                 title="View GitHub Profile"
               >
                 <Github className="w-4 h-4 text-purple-400" />
-                <span className="hidden sm:inline">View GitHub</span>
+                <span className="hidden sm:inline">GitHub</span>
               </a>
 
               <a
@@ -211,7 +236,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
                 title="Connect on LinkedIn"
               >
                 <Linkedin className="w-4 h-4 text-cyber-blue" />
-                <span className="hidden sm:inline">Connect on LinkedIn</span>
+                <span className="hidden sm:inline">LinkedIn</span>
               </a>
             </div>
 
@@ -231,10 +256,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
           {/* Right Column: Template Layered Character Illustration */}
           <div className="flex justify-center relative w-full lg:w-auto">
             <div className="relative w-72 sm:w-80 lg:w-96 aspect-square flex items-center justify-center">
-              {/* Glowing Background Radial */}
               <div className="absolute inset-0 bg-gradient-to-tr from-purple-600/30 via-indigo-600/20 to-transparent rounded-full blur-2xl pointer-events-none" />
 
-              {/* Dual-layered Glow and Character Art from template */}
               <img
                 src="/assets/me-glow.png"
                 alt="Security Researcher Glow Art"
@@ -246,7 +269,6 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
                 className="relative z-10 w-full h-full object-contain drop-shadow-[0_15px_35px_rgba(139,92,246,0.35)]"
               />
 
-              {/* Security Telemetry Badge Overlays */}
               <div className="absolute -top-2 -right-2 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#110720]/90 border border-purple-500/40 shadow-lg text-[11px] font-mono text-purple-300 backdrop-blur-md">
                 <ShieldCheck className="w-4 h-4 text-cyber-green" />
                 <span>VAPT & DFIR</span>
@@ -261,8 +283,25 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
 
         </div>
 
+        {/* Verified Security Statistics Ribbon */}
+        <div className="mt-14 pt-8 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-4">
+          {verifiedStats.map((st, sIdx) => (
+            <div key={sIdx} className="p-4 rounded-xl bg-gradient-to-br from-white/5 to-white/10 border border-white/10 backdrop-blur-sm">
+              <div className={`font-display font-extrabold text-2xl sm:text-3xl ${st.color}`}>
+                {st.value}
+              </div>
+              <div className="text-xs font-semibold text-slate-200 mt-1">
+                {st.label}
+              </div>
+              <div className="text-[10px] font-mono text-slate-400 mt-0.5">
+                {st.highlight}
+              </div>
+            </div>
+          ))}
+        </div>
+
         {/* Achievement Highlights Banner Grid */}
-        <div className="mt-16 pt-10 border-t border-white/10">
+        <div className="mt-8 pt-6 border-t border-white/10">
           <p className="text-xs font-mono text-slate-400 uppercase tracking-widest mb-4">
             VERIFIED HIGHLIGHTS & CREDENTIALS
           </p>

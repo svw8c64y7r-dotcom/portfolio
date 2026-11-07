@@ -26,10 +26,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
     { label: 'Skills', href: '#skills' },
     { label: 'Experience', href: '#experience' },
     { label: 'Projects', href: '#projects' },
+    { label: 'VAPT Report', href: '#vapt' },
+    { label: 'Blog', href: '#blog' },
     { label: 'Achievements', href: '#achievements' },
     { label: 'Certifications', href: '#certifications' },
     { label: 'Education', href: '#education' },
-    { label: 'Research', href: '#research' },
     { label: 'Terminal', href: '#terminal' },
     { label: 'Contact', href: '#contact' },
   ];
@@ -38,7 +39,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
 
-      const sections = ['hero', 'about', 'skills', 'experience', 'projects', 'achievements', 'certifications', 'education', 'research', 'terminal', 'contact'];
+      const sections = ['hero', 'about', 'skills', 'experience', 'projects', 'vapt', 'blog', 'achievements', 'certifications', 'education', 'terminal', 'contact'];
       const scrollPos = window.scrollY + 120;
 
       for (const sectionId of sections) {
@@ -68,38 +69,68 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
   };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-[#110720]/90 backdrop-blur-md border-b border-purple-500/20 shadow-lg shadow-purple-950/40 py-3' : 'bg-transparent py-5'}`}>
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-[#110720]/90 backdrop-blur-md border-b border-purple-500/20 shadow-lg shadow-purple-950/40 py-2.5' : 'bg-transparent py-4'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           
           {/* Brand Moniker / Shield */}
-          <a href="#hero" className="flex items-center space-x-3 group">
-            <div className="relative w-10 h-10 flex items-center justify-center rounded-xl bg-purple-950/60 border border-purple-500/40 group-hover:border-purple-400 group-hover:shadow-neon-purple transition-all duration-300">
-              <Shield className="w-5 h-5 text-purple-400 transition-transform duration-300 group-hover:scale-110" />
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-cyber-green rounded-full animate-ping opacity-75" />
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-cyber-green rounded-full" />
+          <a href="#hero" className="flex items-center space-x-3 group shrink-0">
+            <div className="relative w-9 h-9 flex items-center justify-center rounded-xl bg-purple-950/60 border border-purple-500/40 group-hover:border-purple-400 group-hover:shadow-neon-purple transition-all duration-300">
+              <Shield className="w-4 h-4 text-purple-400 transition-transform duration-300 group-hover:scale-110" />
+              <span className="absolute -top-1 -right-1 w-2 h-2 bg-cyber-green rounded-full animate-ping opacity-75" />
+              <span className="absolute -top-1 -right-1 w-2 h-2 bg-cyber-green rounded-full" />
             </div>
             <div>
-              <div className="font-display font-bold text-sm sm:text-base text-white group-hover:text-purple-300 transition-colors flex items-center gap-1.5">
+              <div className="font-display font-bold text-sm text-white group-hover:text-purple-300 transition-colors flex items-center gap-1">
                 <span>SRI RAGAV SURYA</span>
                 <span className="text-purple-400">A</span>
               </div>
-              <div className="text-[10px] text-slate-400 font-mono tracking-wider flex items-center gap-1">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-cyber-green"></span>
+              <div className="text-[9px] text-slate-400 font-mono tracking-wider flex items-center gap-1">
+                <span className="inline-block w-1 h-1 rounded-full bg-cyber-green"></span>
                 <span>CYBERSECURITY PROFESSIONAL</span>
               </div>
             </div>
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden xl:flex items-center space-x-1 lg:space-x-1.5">
+          <nav className="hidden 2xl:flex items-center space-x-1">
             {navLinks.map((link) => {
               const isActive = activeSection === link.href.substring(1);
               return (
                 <a
                   key={link.href}
                   href={link.href}
-                  className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
+                  className={`px-2.5 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
+                    isActive 
+                      ? 'text-purple-300 bg-purple-500/20 border border-purple-500/40 shadow-sm' 
+                      : 'text-slate-300 hover:text-white hover:bg-white/5'
+                  }`}
+                >
+                  {link.label}
+                </a>
+              );
+            })}
+          </nav>
+
+          {/* Mid-screen condensed links */}
+          <nav className="hidden lg:flex 2xl:hidden items-center space-x-1">
+            {[
+              { label: 'About', href: '#about' },
+              { label: 'Skills', href: '#skills' },
+              { label: 'Experience', href: '#experience' },
+              { label: 'Projects', href: '#projects' },
+              { label: 'VAPT', href: '#vapt' },
+              { label: 'Blog', href: '#blog' },
+              { label: 'Achievements', href: '#achievements' },
+              { label: 'Terminal', href: '#terminal' },
+              { label: 'Contact', href: '#contact' },
+            ].map((link) => {
+              const isActive = activeSection === link.href.substring(1);
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className={`px-2.5 py-1.5 rounded-md text-xs font-medium transition-all duration-200 ${
                     isActive 
                       ? 'text-purple-300 bg-purple-500/20 border border-purple-500/40 shadow-sm' 
                       : 'text-slate-300 hover:text-white hover:bg-white/5'
@@ -112,7 +143,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
           </nav>
 
           {/* Action CTAs & Resume Button */}
-          <div className="hidden lg:flex items-center space-x-3">
+          <div className="hidden lg:flex items-center space-x-2.5 shrink-0">
             <a
               href={personalData.github}
               target="_blank"
@@ -135,7 +166,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
 
             <button
               onClick={handleDownloadResume}
-              className="flex items-center space-x-2 px-4 py-2 rounded-lg text-xs font-semibold bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-500 hover:to-indigo-500 hover:shadow-neon-purple active:scale-95 transition-all duration-300 shadow-md"
+              className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-500 hover:to-indigo-500 hover:shadow-neon-purple active:scale-95 transition-all duration-300 shadow-md font-mono"
             >
               <Download className="w-3.5 h-3.5" />
               <span>Resume</span>
@@ -143,7 +174,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex items-center space-x-2 xl:hidden">
+          <div className="flex items-center space-x-2 lg:hidden">
             <button
               onClick={handleDownloadResume}
               className="flex items-center space-x-1 px-3 py-1.5 rounded text-xs font-semibold bg-purple-600/30 border border-purple-500/50 text-purple-300 sm:hidden"
@@ -165,7 +196,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
 
       {/* Mobile Drawer Navigation */}
       {mobileMenuOpen && (
-        <div className="xl:hidden bg-[#110720]/98 backdrop-blur-xl border-b border-white/10 px-4 pt-3 pb-6 animate-in slide-in-from-top-2 duration-200">
+        <div className="lg:hidden bg-[#110720]/98 backdrop-blur-xl border-b border-white/10 px-4 pt-3 pb-6 animate-in slide-in-from-top-2 duration-200">
           <div className="space-y-1">
             {navLinks.map((link) => (
               <a
@@ -186,7 +217,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal }) => {
                 setMobileMenuOpen(false);
                 handleDownloadResume(e);
               }}
-              className="w-full flex items-center justify-center space-x-2 py-2.5 rounded-lg text-xs font-bold bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:opacity-90 transition-colors shadow-neon-purple"
+              className="w-full flex items-center justify-center space-x-2 py-2.5 rounded-lg text-xs font-bold bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:opacity-90 transition-colors shadow-neon-purple font-mono"
             >
               <Download className="w-4 h-4" />
               <span>Download Official Resume (PDF)</span>
