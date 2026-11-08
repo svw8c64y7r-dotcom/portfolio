@@ -246,28 +246,46 @@ export const Hero: React.FC<HeroProps> = ({ onOpenResumeModal }) => {
 
           </div>
 
-          {/* Right Column: Template Layered Character Illustration */}
+          {/* Right Column: Verified Professional Portrait with Cyber Frame */}
           <div className="flex justify-center relative w-full lg:w-auto">
             <div className="relative w-72 sm:w-80 lg:w-96 aspect-square flex items-center justify-center">
-              <div className="absolute inset-0 bg-gradient-to-tr from-purple-600/30 via-indigo-600/20 to-transparent rounded-full blur-2xl pointer-events-none" />
+              {/* Outer Cyber Glow Aura */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-purple-600/40 via-indigo-600/25 to-cyber-blue/30 rounded-3xl blur-2xl pointer-events-none" />
 
-              <img
-                src="/assets/me-glow.png"
-                alt="Security Researcher Glow Art"
-                className="absolute inset-0 w-full h-full object-contain pointer-events-none scale-105"
-              />
-              <img
-                src="/assets/me.png"
-                alt="Sri Ragav Surya A"
-                className="relative z-10 w-full h-full object-contain drop-shadow-[0_15px_35px_rgba(139,92,246,0.35)]"
-              />
+              {/* Futuristic Cyber Frame Container */}
+              <div className="relative z-10 w-full h-full rounded-3xl p-2.5 bg-gradient-to-b from-purple-500/30 via-white/5 to-purple-900/40 border border-purple-500/40 shadow-[0_0_50px_rgba(139,92,246,0.3)] backdrop-blur-md group overflow-hidden">
+                {/* Inner Image Container */}
+                <div className="w-full h-full rounded-2xl overflow-hidden relative bg-[#0b0417] border border-white/10">
+                  <img
+                    src="/assets/profile.jpg"
+                    alt="Sri Ragav Surya A - Cybersecurity Professional"
+                    className="w-full h-full object-cover object-top filter contrast-[1.05] brightness-100 group-hover:scale-105 transition-transform duration-500"
+                  />
+                  
+                  {/* Subtle Gradient Vignette at Bottom */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#110720]/80 via-transparent to-transparent pointer-events-none" />
 
-              <div className="absolute -top-2 -right-2 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#110720]/90 border border-purple-500/40 shadow-lg text-[11px] font-mono text-purple-300 backdrop-blur-md">
+                  {/* Top-Left Verified Operator Indicator */}
+                  <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#110720]/90 border border-cyber-green/50 text-[10px] font-mono text-cyber-green backdrop-blur-md shadow-md">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyber-green animate-pulse" />
+                    <span>OPERATOR VERIFIED</span>
+                  </div>
+
+                  {/* Bottom Scanlines Accent */}
+                  <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-[9px] font-mono text-purple-300/80 pointer-events-none">
+                    <span>SECURITY RESEARCHER</span>
+                    <span>ID: SRS-2025</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating Verified Telemetry Badges */}
+              <div className="absolute -top-3 -right-3 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#110720]/95 border border-purple-500/50 shadow-xl text-[11px] font-mono text-purple-300 backdrop-blur-md">
                 <ShieldCheck className="w-4 h-4 text-cyber-green" />
                 <span>VAPT & DFIR</span>
               </div>
 
-              <div className="absolute -bottom-2 -left-2 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#110720]/90 border border-purple-500/40 shadow-lg text-[11px] font-mono text-slate-200 backdrop-blur-md">
+              <div className="absolute -bottom-3 -left-3 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#110720]/95 border border-purple-500/50 shadow-xl text-[11px] font-mono text-slate-200 backdrop-blur-md">
                 <Award className="w-4 h-4 text-amber-400" />
                 <span>DEFCON Top 50</span>
               </div>

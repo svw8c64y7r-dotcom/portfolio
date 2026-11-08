@@ -14,6 +14,7 @@ const requiredAssets = [
   'public/assets/illustration.png',
   'public/assets/me-glow.png',
   'public/assets/me.png',
+  'public/assets/profile.jpg',
   'public/cards/card-1.png',
   'public/cards/card-2.png',
   'public/cards/card-3.png',
@@ -112,6 +113,7 @@ server.listen(5055, async () => {
     { path: '/resume/Sri_Ragav_Surya_Resume.pdf', type: 'application/pdf' },
     { path: '/assets/arrow.png', type: 'image/png' },
     { path: '/assets/me.png', type: 'image/png' },
+    { path: '/assets/profile.jpg', type: 'image/jpeg' },
     { path: '/assets/me-glow.png', type: 'image/png' },
     { path: '/cards/card-1.png', type: 'image/png' },
     { path: '/projects/project-1.png', type: 'image/png' }
