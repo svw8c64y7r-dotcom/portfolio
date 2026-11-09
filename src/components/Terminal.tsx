@@ -43,8 +43,9 @@ export const Terminal: React.FC<TerminalProps> = ({ isStandalone = true }) => {
   const [isMaximized, setIsMaximized] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [copied, setCopied] = useState(false);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const terminalBodyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const isFirstRender = useRef(true);
 
   // Synthesize futuristic cyber audio feedback via Web Audio API (zero external assets)
   const playCyberSound = (type: 'key' | 'success' | 'clear') => {
@@ -119,7 +120,13 @@ export const Terminal: React.FC<TerminalProps> = ({ isStandalone = true }) => {
   }, []);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (terminalBodyRef.current) {
+      terminalBodyRef.current.scrollTop = terminalBodyRef.current.scrollHeight;
+    }
   }, [history]);
 
   const handleCopyHistory = () => {
@@ -704,6 +711,7 @@ export const Terminal: React.FC<TerminalProps> = ({ isStandalone = true }) => {
 
       {/* Terminal Body */}
       <div 
+        ref={terminalBodyRef}
         className="flex-1 p-4 overflow-y-auto space-y-4 font-mono text-xs md:text-sm text-slate-200 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-black/40"
         onClick={() => inputRef.current?.focus()}
       >
@@ -748,7 +756,6 @@ export const Terminal: React.FC<TerminalProps> = ({ isStandalone = true }) => {
             <CornerDownLeft className="w-3.5 h-3.5" />
           </button>
         </div>
-        <div ref={bottomRef} />
       </div>
 
       {/* Quick Command Chips */}

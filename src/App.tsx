@@ -26,6 +26,10 @@ export const App: React.FC = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
+    if (!window.location.hash) {
+      window.scrollTo(0, 0);
+    }
+
     if (window.location.pathname !== '/' && window.location.pathname !== '') {
       setIsNotFound(true);
     }
