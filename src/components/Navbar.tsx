@@ -4,24 +4,33 @@ import {
   Menu, 
   X, 
   Download, 
-  Terminal as TerminalIcon, 
   Github, 
   Linkedin, 
   ChevronRight,
-  ExternalLink
+  Zap
 } from 'lucide-react';
 import { personalData } from '../data/personal';
 import { SocStatusBar } from './SocStatusBar';
+import { useOperatorMode, OperatorMode } from '../context/OperatorModeContext';
 
 interface NavbarProps {
   onOpenResumeModal?: () => void;
   onOpenCommandPalette?: () => void;
+  onOpenDossier?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal, onOpenCommandPalette }) => {
+const operatorModes: { label: string; value: OperatorMode; color: string; activeColor: string }[] = [
+  { label: 'ALL', value: 'all', color: 'text-slate-400 border-white/10 bg-white/5', activeColor: 'text-purple-300 border-purple-500/50 bg-purple-500/15' },
+  { label: 'RED', value: 'red', color: 'text-slate-400 border-white/10 bg-white/5', activeColor: 'text-red-300 border-red-500/50 bg-red-500/15' },
+  { label: 'BLUE', value: 'blue', color: 'text-slate-400 border-white/10 bg-white/5', activeColor: 'text-blue-300 border-blue-500/50 bg-blue-500/15' },
+  { label: 'DFIR', value: 'dfir', color: 'text-slate-400 border-white/10 bg-white/5', activeColor: 'text-cyan-300 border-cyan-500/50 bg-cyan-500/15' },
+];
+
+export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal, onOpenCommandPalette, onOpenDossier }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
+  const { mode, setMode } = useOperatorMode();
 
   const navLinks = [
     { label: 'About', href: '#about' },
@@ -148,8 +157,35 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal, onOpenCommand
               })}
             </nav>
 
-          {/* Action CTAs & Resume Button */}
-          <div className="hidden lg:flex items-center space-x-2.5 shrink-0">
+          {/* Action CTAs, Operator Mode & Resume Button */}
+          <div className="hidden lg:flex items-center space-x-2 shrink-0">
+
+            {/* Operator Mode Switcher */}
+            <div className="flex items-center gap-1 p-1 rounded-lg bg-black/30 border border-white/10">
+              {operatorModes.map((m) => (
+                <button
+                  key={m.value}
+                  onClick={() => setMode(m.value)}
+                  className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold border transition-all duration-200 ${
+                    mode === m.value ? m.activeColor : m.color + ' hover:text-white'
+                  }`}
+                  title={`Filter: ${m.label} Team`}
+                >
+                  {m.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Dossier / Quick View Button */}
+            <button
+              onClick={() => onOpenDossier?.()}
+              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/40 text-amber-300 hover:border-amber-400 hover:bg-amber-500/25 active:scale-95 transition-all duration-200 font-mono"
+              title="Recruiter Quick View"
+            >
+              <Zap className="w-3.5 h-3.5" />
+              <span>Dossier</span>
+            </button>
+
             <a
               href={personalData.github}
               target="_blank"
@@ -218,7 +254,33 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal, onOpenCommand
             ))}
           </div>
 
+          {/* Mobile Operator Mode */}
+          <div className="mt-4 pt-4 border-t border-white/10">
+            <div className="text-[10px] font-mono text-slate-500 uppercase tracking-widest mb-2">Operator Mode</div>
+            <div className="flex gap-2">
+              {operatorModes.map((m) => (
+                <button
+                  key={m.value}
+                  onClick={() => setMode(m.value)}
+                  className={`flex-1 py-1.5 rounded text-[11px] font-mono font-bold border transition-all ${
+                    mode === m.value ? m.activeColor : m.color
+                  }`}
+                >
+                  {m.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <div className="mt-4 pt-4 border-t border-white/10 flex flex-col gap-2.5">
+            <button
+              onClick={() => { setMobileMenuOpen(false); onOpenDossier?.(); }}
+              className="w-full flex items-center justify-center space-x-2 py-2.5 rounded-lg text-xs font-bold bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/40 text-amber-300 font-mono"
+            >
+              <Zap className="w-4 h-4" />
+              <span>Recruiter Quick View (Dossier)</span>
+            </button>
+
             <button
               onClick={(e) => {
                 setMobileMenuOpen(false);

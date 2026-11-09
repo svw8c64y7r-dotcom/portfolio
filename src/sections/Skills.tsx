@@ -17,12 +17,14 @@ import {
 } from 'lucide-react';
 import { skillGroups } from '../data/skills';
 import { SkillGroup, SkillItem } from '../types';
+import { useOperatorMode } from '../context/OperatorModeContext';
 
 export const Skills: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [copiedMatrix, setCopiedMatrix] = useState(false);
   const [showMitreModal, setShowMitreModal] = useState(false);
+  const { mode, setMode } = useOperatorMode();
 
   const mitreTactics = [
     {
@@ -91,6 +93,17 @@ export const Skills: React.FC = () => {
   };
 
   const filteredGroups = skillGroups.filter(group => {
+    // Operator Mode Level Filter
+    if (mode === 'red' && group.id !== 'offensive-security') {
+      return false;
+    }
+    if (mode === 'blue' && group.id !== 'defensive-security' && group.id !== 'grc') {
+      return false;
+    }
+    if (mode === 'dfir' && group.id !== 'dfir') {
+      return false;
+    }
+
     if (selectedCategory !== 'all' && group.id !== selectedCategory) {
       return false;
     }
@@ -178,6 +191,28 @@ export const Skills: React.FC = () => {
             </button>
           </div>
         </div>
+
+        {/* Operator Mode Active Indicator */}
+        {mode !== 'all' && (
+          <div className="mb-6 p-3 rounded-xl bg-purple-950/40 border border-purple-500/40 flex items-center justify-between text-xs font-mono animate-in fade-in">
+            <div className="flex items-center gap-2">
+              <span className={`w-2 h-2 rounded-full animate-ping ${
+                mode === 'red' ? 'bg-red-400' : mode === 'blue' ? 'bg-blue-400' : 'bg-cyan-400'
+              }`} />
+              <span className="text-slate-300">
+                OPERATOR FILTER ACTIVE: <strong className={
+                  mode === 'red' ? 'text-red-400' : mode === 'blue' ? 'text-blue-400' : 'text-cyan-400'
+                }>{mode.toUpperCase()} TEAM DISCIPLINE</strong>
+              </span>
+            </div>
+            <button
+              onClick={() => setMode('all')}
+              className="text-slate-400 hover:text-white underline decoration-dotted text-[11px]"
+            >
+              Reset to All
+            </button>
+          </div>
+        )}
 
         {/* Category Filter Pills */}
         <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 scrollbar-none select-none">

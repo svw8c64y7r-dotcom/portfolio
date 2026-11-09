@@ -1,3 +1,10 @@
+export interface MitreMapping {
+  techniqueId: string;
+  techniqueName: string;
+  tacticId: string;
+  tacticName: string;
+}
+
 export interface VulnerabilityFinding {
   id: string;
   title: string;
@@ -14,6 +21,7 @@ export interface VulnerabilityFinding {
   };
   remediation: string[];
   status: 'Verified & Documented' | 'Remediated';
+  mitreAttack?: MitreMapping[];
 }
 
 export interface VaptAssessment {
@@ -71,7 +79,12 @@ export const vaptAssessmentData: VaptAssessment = {
         'Adopt indirect reference maps or non-sequential UUIDs (v4) to prevent sequential enumeration.',
         'Implement automated role-based access control (RBAC) unit and integration tests.'
       ],
-      status: 'Verified & Documented'
+      status: 'Verified & Documented',
+      mitreAttack: [
+        { techniqueId: 'T1190', techniqueName: 'Exploit Public-Facing Application', tacticId: 'TA0001', tacticName: 'Initial Access' },
+        { techniqueId: 'T1078', techniqueName: 'Valid Accounts – Auth Bypass via IDOR', tacticId: 'TA0001', tacticName: 'Initial Access' },
+        { techniqueId: 'T1530', techniqueName: 'Data from Cloud Storage', tacticId: 'TA0009', tacticName: 'Collection' }
+      ]
     },
     {
       id: 'VULN-02',
@@ -92,7 +105,12 @@ export const vaptAssessmentData: VaptAssessment = {
         'Employ strict input validation using allowlists for acceptable alphanumeric patterns.',
         'Configure database user accounts with least-privilege access rights.'
       ],
-      status: 'Verified & Documented'
+      status: 'Verified & Documented',
+      mitreAttack: [
+        { techniqueId: 'T1190', techniqueName: 'Exploit Public-Facing Application', tacticId: 'TA0001', tacticName: 'Initial Access' },
+        { techniqueId: 'T1059.006', techniqueName: 'Command & Scripting Interpreter: Python (SQLi Auth Bypass)', tacticId: 'TA0002', tacticName: 'Execution' },
+        { techniqueId: 'T1005', techniqueName: 'Data from Local System (DB Exfiltration)', tacticId: 'TA0009', tacticName: 'Collection' }
+      ]
     },
     {
       id: 'VULN-03',
@@ -113,7 +131,11 @@ export const vaptAssessmentData: VaptAssessment = {
         'Deploy a robust Content Security Policy (CSP) restricting inline script execution (`default-src "self"`).',
         'Set `HttpOnly` and `SameSite=Strict` flags on all session identifiers.'
       ],
-      status: 'Verified & Documented'
+      status: 'Verified & Documented',
+      mitreAttack: [
+        { techniqueId: 'T1059.007', techniqueName: 'Command & Scripting Interpreter: JavaScript', tacticId: 'TA0002', tacticName: 'Execution' },
+        { techniqueId: 'T1185', techniqueName: 'Browser Session Hijacking (Cookie Theft)', tacticId: 'TA0006', tacticName: 'Credential Access' }
+      ]
     },
     {
       id: 'VULN-04',
@@ -134,7 +156,11 @@ export const vaptAssessmentData: VaptAssessment = {
         'Restrict actuator and management endpoints to private loopback interfaces with strict role authentication.',
         'Implement centralized global exception handling returning standardized, generic error responses.'
       ],
-      status: 'Verified & Documented'
+      status: 'Verified & Documented',
+      mitreAttack: [
+        { techniqueId: 'T1082', techniqueName: 'System Information Discovery', tacticId: 'TA0007', tacticName: 'Discovery' },
+        { techniqueId: 'T1592', techniqueName: 'Gather Victim Host Information', tacticId: 'TA0043', tacticName: 'Reconnaissance' }
+      ]
     },
     {
       id: 'VULN-05',
@@ -150,7 +176,11 @@ export const vaptAssessmentData: VaptAssessment = {
         'Configure `Strict-Transport-Security: max-age=31536000; includeSubDomains; preload` header on reverse proxies.',
         'Implement standard `Content-Security-Policy`, `X-Content-Type-Options: nosniff`, and `X-Frame-Options: SAMEORIGIN` headers.'
       ],
-      status: 'Verified & Documented'
+      status: 'Verified & Documented',
+      mitreAttack: [
+        { techniqueId: 'T1557', techniqueName: 'Adversary-in-the-Middle (SSL Stripping)', tacticId: 'TA0006', tacticName: 'Credential Access' },
+        { techniqueId: 'T1562.001', techniqueName: 'Impair Defenses: Missing Security Headers', tacticId: 'TA0005', tacticName: 'Defense Evasion' }
+      ]
     }
   ]
 };

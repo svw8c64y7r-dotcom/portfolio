@@ -202,6 +202,22 @@ export const VaptReport: React.FC = () => {
                 <p className="text-xs text-slate-400 font-mono">
                   Affected Endpoint: <code className="text-slate-200 bg-white/5 px-1 py-0.5 rounded">{finding.affectedComponent}</code>
                 </p>
+
+                {finding.mitreAttack && finding.mitreAttack.length > 0 && (
+                  <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                    <span className="text-[10px] font-mono text-purple-400 font-semibold tracking-wider">MITRE:</span>
+                    {finding.mitreAttack.map(m => (
+                      <span
+                        key={m.techniqueId}
+                        className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono bg-purple-950/60 border border-purple-500/30 text-purple-300"
+                      >
+                        <span className="font-bold">{m.techniqueId}</span>
+                        <span className="text-slate-500">â€¢</span>
+                        <span className="text-slate-300">{m.techniqueName}</span>
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div className="flex items-center gap-3 shrink-0 self-end md:self-center">
@@ -250,6 +266,43 @@ export const VaptReport: React.FC = () => {
                   <span><strong className="text-purple-300">CVSS v3.1 Vector:</strong> {selectedFinding.cvssVector}</span>
                   <span className="text-emerald-400 font-bold">{selectedFinding.status}</span>
                 </div>
+
+                {/* MITRE ATT&CK Mapping */}
+                {selectedFinding.mitreAttack && selectedFinding.mitreAttack.length > 0 && (
+                  <div className="p-4 rounded-xl bg-purple-950/20 border border-purple-500/30">
+                    <div className="flex items-center justify-between mb-2.5">
+                      <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-purple-300 flex items-center gap-1.5">
+                        <ShieldAlert className="w-4 h-4 text-purple-400" />
+                        <span>MITRE ATT&CK Matrix Mapping</span>
+                      </h4>
+                      <span className="text-[10px] font-mono text-slate-400">Enterprise Framework</span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {selectedFinding.mitreAttack.map(m => (
+                        <a
+                          key={m.techniqueId}
+                          href={`https://attack.mitre.org/techniques/${m.techniqueId.replace('.', '/')}/`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-between p-2.5 rounded-lg bg-black/40 border border-purple-500/30 hover:border-purple-400 hover:bg-purple-900/20 transition-all group/mitre"
+                        >
+                          <div>
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-xs font-mono font-bold text-red-400">{m.techniqueId}</span>
+                              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                                {m.tacticName}
+                              </span>
+                            </div>
+                            <div className="text-xs text-slate-200 font-mono mt-0.5 group-hover/mitre:text-white transition-colors">
+                              {m.techniqueName}
+                            </div>
+                          </div>
+                          <ExternalLink className="w-3.5 h-3.5 text-slate-500 group-hover/mitre:text-purple-300 shrink-0 ml-2" />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 <div>
                   <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-purple-300 mb-2">

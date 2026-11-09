@@ -79,7 +79,7 @@ export const Terminal: React.FC<TerminalProps> = ({ isStandalone = true }) => {
   const availableCommands = [
     'help', 'about', 'skills', 'projects', 'vapt', 'blog', 'experience', 'achievements',
     'certifications', 'education', 'github', 'linkedin', 'contact', 'resume',
-    'nmap', 'cve', 'cat', 'sudo', 'hash',
+    'nmap', 'cve', 'cat', 'decode', 'sudo', 'hash',
     'clear', 'banner', 'status', 'mitre', 'soc', 'ping', 'whoami', 'date'
   ];
 
@@ -177,7 +177,8 @@ export const Terminal: React.FC<TerminalProps> = ({ isStandalone = true }) => {
               <div><span className="text-purple-400 font-bold inline-block w-28">resume</span> - Download official 159 KB PDF</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">nmap</span> - Simulated perimeter port scan</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">cve</span> - Critical CVE database & mapping</div>
-              <div><span className="text-purple-400 font-bold inline-block w-28">cat &lt;file&gt;</span> - Read file (flag.txt, resume.txt)</div>
+              <div><span className="text-purple-400 font-bold inline-block w-28">cat &lt;file&gt;</span> - Read file (flag.txt, secret.txt, resume.txt)</div>
+              <div><span className="text-purple-400 font-bold inline-block w-28">decode &lt;ans&gt;</span> - CTF challenge solution decoder</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">sudo</span> - Attempt privilege escalation check</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">mitre</span> - MITRE ATT&CK framework coverage</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">soc</span> - Simulated live SOC defense telemetry</div>
@@ -570,11 +571,71 @@ export const Terminal: React.FC<TerminalProps> = ({ isStandalone = true }) => {
               <p>PGP Fingerprint: 0x8870726999SURYA</p>
             </div>
           );
+        } else if (targetFile === 'secret.txt') {
+          outputContent = (
+            <div className="text-xs font-mono space-y-2 p-3.5 bg-purple-950/40 border border-purple-500/40 rounded-xl">
+              <div className="text-cyber-green font-bold flex items-center gap-1.5">
+                <span>🔒</span>
+                <span>OPERATOR CTF CHALLENGE // SECURITY CLEARANCE REQUIRED</span>
+              </div>
+              <p className="text-slate-300">
+                You retrieved the hidden clue from <code className="text-purple-300 bg-black/50 px-1 py-0.5 rounded">robots.txt</code>. Decode the ROT13 string below to identify the industry-standard memory forensics framework used in Ragav's research:
+              </p>
+              <div className="p-3 bg-black/80 border border-amber-500/40 rounded-lg">
+                <span className="text-slate-400">ROT13 CIPHERTEXT: </span>
+                <span className="text-amber-300 font-bold text-sm tracking-wider">"ibyngvyvgl"</span>
+              </div>
+              <p className="text-[11px] text-slate-400">
+                Submit your answer: <code className="text-cyber-green bg-black/40 px-1.5 py-0.5 rounded">decode &lt;answer&gt;</code>
+              </p>
+            </div>
+          );
         } else {
           outputContent = (
             <div className="text-xs font-mono text-slate-400">
               cat: {targetFile ? targetFile : 'missing operand'}: No such file.<br />
-              <span className="text-purple-300">Available files:</span> flag.txt, resume.txt, contact.txt
+              <span className="text-purple-300">Available files:</span> flag.txt, secret.txt, resume.txt, contact.txt
+            </div>
+          );
+        }
+        break;
+
+      case 'decode':
+        const answer = (args[1] || '').trim().toLowerCase();
+        if (answer === 'volatility' || answer === 'volatility3') {
+          playCyberSound('success');
+          outputContent = (
+            <div className="p-4 rounded-xl bg-gradient-to-r from-emerald-950/40 via-purple-950/40 to-black/80 border border-emerald-500/50 space-y-3 font-mono text-xs animate-in zoom-in-95">
+              <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+                <span className="text-lg">🏆</span>
+                <span>CHALLENGE SOLVED: ELITE OPERATOR BADGE UNLOCKED!</span>
+              </div>
+              <p className="text-slate-200 leading-relaxed">
+                <strong className="text-cyber-green">Correct! Volatility</strong> — The advanced open-source digital forensics memory analysis framework. You've demonstrated threat hunting and cryptography awareness.
+              </p>
+              <div className="p-3.5 bg-black/80 border border-cyber-green/50 rounded-xl flex items-center justify-between text-cyber-green">
+                <div>
+                  <div className="font-bold tracking-widest text-[11px] text-amber-300">[BADGE UNLOCKED]</div>
+                  <div className="text-sm font-extrabold text-white">ELITE SECURITY OPERATOR</div>
+                  <div className="text-[10px] text-slate-400 font-mono mt-0.5">Authorization ID: 0xVOLATILITY_CTF_PASSED</div>
+                </div>
+                <div className="text-2xl font-bold px-3 py-1 bg-cyber-green/10 border border-cyber-green/30 rounded-lg text-cyber-green">
+                  ✓ VERIFIED
+                </div>
+              </div>
+            </div>
+          );
+        } else if (!answer) {
+          outputContent = (
+            <div className="text-xs font-mono text-amber-400 bg-amber-950/20 p-2.5 rounded-lg border border-amber-500/30">
+              Usage: <code className="text-white">decode &lt;answer&gt;</code><br />
+              <span className="text-slate-400 text-[11px]">Hint: Run <code className="text-purple-300">cat secret.txt</code> to view the ROT13 challenge.</span>
+            </div>
+          );
+        } else {
+          outputContent = (
+            <div className="text-xs font-mono text-red-400 bg-red-950/20 p-2.5 rounded-lg border border-red-500/30">
+              [-] Incorrect solution: "{answer}". ROT13 decryption key incorrect. Try again!
             </div>
           );
         }

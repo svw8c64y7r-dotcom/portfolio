@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# 🔒 OPERATOR CHALLENGE: If you can read this, you're already in.
+# Decode this to unlock the Elite Operator badge in the terminal:
+# Base64: cmFnYXZAY3liZXJzZWN1cml0eTp+JCBjYXQgc2VjcmV0LnR4dA==
+# (Hint: type `cat secret.txt` in the terminal at #terminal)
+

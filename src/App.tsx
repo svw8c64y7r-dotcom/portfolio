@@ -18,10 +18,13 @@ import { Contact } from './sections/Contact';
 import { Footer } from './components/Footer';
 import { ResumeModal } from './components/ResumeModal';
 import { NotFound } from './components/NotFound';
+import { RecruiterDossierModal } from './components/RecruiterDossierModal';
+import { OperatorModeProvider } from './context/OperatorModeContext';
 
 export const App: React.FC = () => {
   const [isResumeModalOpen, setIsResumeModalOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [isDossierOpen, setIsDossierOpen] = useState(false);
   const [isNotFound, setIsNotFound] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -66,6 +69,7 @@ export const App: React.FC = () => {
   }
 
   return (
+    <OperatorModeProvider>
     <div className="min-h-screen bg-[#110720] text-slate-100 flex flex-col font-sans selection:bg-purple-500/30 selection:text-purple-300">
       {/* Top Cyber Scroll Progress Bar */}
       <div 
@@ -81,6 +85,7 @@ export const App: React.FC = () => {
       <Navbar 
         onOpenResumeModal={() => setIsResumeModalOpen(true)} 
         onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+        onOpenDossier={() => setIsDossierOpen(true)}
       />
 
       {/* Main Content Area */}
@@ -116,7 +121,15 @@ export const App: React.FC = () => {
         onClose={() => setIsCommandPaletteOpen(false)}
         onOpenResumeModal={() => setIsResumeModalOpen(true)}
       />
+
+      {/* Recruiter 60-Second Dossier Modal */}
+      <RecruiterDossierModal
+        isOpen={isDossierOpen}
+        onClose={() => setIsDossierOpen(false)}
+        onOpenResumeModal={() => setIsResumeModalOpen(true)}
+      />
     </div>
+    </OperatorModeProvider>
   );
 };
 

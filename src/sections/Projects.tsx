@@ -15,10 +15,12 @@ import {
 } from 'lucide-react';
 import { projectsData } from '../data/projects';
 import { Project } from '../types';
+import { useOperatorMode } from '../context/OperatorModeContext';
 
 export const Projects: React.FC = () => {
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const { mode, setMode } = useOperatorMode();
 
   const filterTabs = [
     { id: 'all', label: 'All Projects & Labs' },
@@ -27,6 +29,17 @@ export const Projects: React.FC = () => {
   ];
 
   const filteredProjects = projectsData.filter(project => {
+    // Operator Mode filter
+    if (mode === 'red' && !['web-vulnerability-scanner', 'owasp-top-10-assessment'].includes(project.id)) {
+      return false;
+    }
+    if (mode === 'blue' && !['security-monitoring-soc-lab', 'epoteck-fullstack'].includes(project.id)) {
+      return false;
+    }
+    if (mode === 'dfir' && !['digital-forensics-lab'].includes(project.id)) {
+      return false;
+    }
+
     if (activeFilter === 'dev') return !project.isLabWork;
     if (activeFilter === 'lab') return project.isLabWork;
     return true;
