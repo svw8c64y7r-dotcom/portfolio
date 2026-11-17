@@ -12,23 +12,29 @@ import {
   Briefcase,
   Copy,
   Check,
-  Zap
+  Zap,
+  Printer,
+  FileText
 } from 'lucide-react';
 import { personalData } from '../data/personal';
+import { useSound } from '../context/SoundContext';
 
 interface RecruiterDossierModalProps {
   isOpen: boolean;
   onClose: () => void;
   onOpenResumeModal: () => void;
+  onOpenOnePager?: () => void;
 }
 
 export const RecruiterDossierModal: React.FC<RecruiterDossierModalProps> = ({
   isOpen,
   onClose,
-  onOpenResumeModal
+  onOpenResumeModal,
+  onOpenOnePager
 }) => {
   const [copiedEmail, setCopiedEmail] = React.useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
+  const { playClick, playModalOpen } = useSound();
 
   useEffect(() => {
     if (isOpen) {
@@ -143,11 +149,27 @@ export const RecruiterDossierModal: React.FC<RecruiterDossierModalProps> = ({
           </div>
 
           {/* Quick Action CTAs */}
-          <div className="pt-2 border-t border-white/10">
-            <p className="text-xs font-mono text-purple-400 uppercase tracking-widest mb-3">Quick Actions</p>
+          <div className="pt-2 border-t border-white/10 space-y-3">
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-mono text-purple-400 uppercase tracking-widest">Recruiter Quick Actions</p>
+              {onOpenOnePager && (
+                <button
+                  onClick={() => {
+                    playModalOpen();
+                    onClose();
+                    onOpenOnePager();
+                  }}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-mono bg-purple-600/30 hover:bg-purple-600/50 text-purple-300 border border-purple-500/40 transition-all font-bold"
+                >
+                  <Printer className="w-3.5 h-3.5" />
+                  <span>Print A4 One-Pager</span>
+                </button>
+              )}
+            </div>
+
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               <button
-                onClick={() => { onOpenResumeModal(); onClose(); }}
+                onClick={() => { playModalOpen(); onOpenResumeModal(); onClose(); }}
                 className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-gradient-to-b from-purple-600/30 to-indigo-600/20 border border-purple-500/40 text-purple-300 hover:border-purple-400 hover:bg-purple-500/20 transition-all"
               >
                 <Download className="w-5 h-5" />
@@ -155,7 +177,7 @@ export const RecruiterDossierModal: React.FC<RecruiterDossierModalProps> = ({
               </button>
 
               <button
-                onClick={copyEmail}
+                onClick={() => { playClick(); copyEmail(); }}
                 className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:border-cyber-blue/50 hover:text-cyber-blue transition-all"
               >
                 {copiedEmail ? <Check className="w-5 h-5 text-cyber-green" /> : <Mail className="w-5 h-5" />}
@@ -166,6 +188,7 @@ export const RecruiterDossierModal: React.FC<RecruiterDossierModalProps> = ({
                 href={personalData.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => playClick()}
                 className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:border-cyber-blue/50 hover:text-cyber-blue transition-all"
               >
                 <Linkedin className="w-5 h-5" />
@@ -176,6 +199,7 @@ export const RecruiterDossierModal: React.FC<RecruiterDossierModalProps> = ({
                 href={personalData.github}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => playClick()}
                 className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-white/5 border border-white/10 text-slate-300 hover:border-purple-500/50 hover:text-purple-300 transition-all"
               >
                 <Github className="w-5 h-5" />

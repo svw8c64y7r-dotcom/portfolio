@@ -12,11 +12,13 @@ import {
 import { personalData } from '../data/personal';
 import { SocStatusBar } from './SocStatusBar';
 import { useOperatorMode, OperatorMode } from '../context/OperatorModeContext';
+import { useSound } from '../context/SoundContext';
 
 interface NavbarProps {
   onOpenResumeModal?: () => void;
   onOpenCommandPalette?: () => void;
   onOpenDossier?: () => void;
+  onOpenOnePager?: () => void;
 }
 
 const operatorModes: { label: string; value: OperatorMode; color: string; activeColor: string }[] = [
@@ -26,11 +28,12 @@ const operatorModes: { label: string; value: OperatorMode; color: string; active
   { label: 'DFIR', value: 'dfir', color: 'text-slate-400 border-white/10 bg-white/5', activeColor: 'text-cyan-300 border-cyan-500/50 bg-cyan-500/15' },
 ];
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal, onOpenCommandPalette, onOpenDossier }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal, onOpenCommandPalette, onOpenDossier, onOpenOnePager }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const { mode, setMode } = useOperatorMode();
+  const { playModeSwitch, playModalOpen, playClick } = useSound();
 
   const navLinks = [
     { label: 'About', href: '#about' },
@@ -72,6 +75,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal, onOpenCommand
 
   const handleDownloadResume = (e: React.MouseEvent) => {
     e.preventDefault();
+    playModalOpen();
     if (onOpenResumeModal) {
       onOpenResumeModal();
     } else {
@@ -165,7 +169,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal, onOpenCommand
               {operatorModes.map((m) => (
                 <button
                   key={m.value}
-                  onClick={() => setMode(m.value)}
+                  onClick={() => {
+                    playModeSwitch(m.value);
+                    setMode(m.value);
+                  }}
                   className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold border transition-all duration-200 ${
                     mode === m.value ? m.activeColor : m.color + ' hover:text-white'
                   }`}
@@ -178,7 +185,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResumeModal, onOpenCommand
 
             {/* Dossier / Quick View Button */}
             <button
-              onClick={() => onOpenDossier?.()}
+              onClick={() => {
+                playModalOpen();
+                onOpenDossier?.();
+              }}
               className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/40 text-amber-300 hover:border-amber-400 hover:bg-amber-500/25 active:scale-95 transition-all duration-200 font-mono"
               title="Recruiter Quick View"
             >

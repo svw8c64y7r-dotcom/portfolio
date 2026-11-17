@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ShieldCheck, Activity, Clock, Terminal, Command } from 'lucide-react';
+import { ShieldCheck, Activity, Clock, Terminal, Command, Volume2, VolumeX } from 'lucide-react';
+import { useSound } from '../context/SoundContext';
 
 interface SocStatusBarProps {
   onOpenCommandPalette: () => void;
@@ -8,6 +9,7 @@ interface SocStatusBarProps {
 export const SocStatusBar: React.FC<SocStatusBarProps> = ({ onOpenCommandPalette }) => {
   const [timeIST, setTimeIST] = useState('');
   const [timeUTC, setTimeUTC] = useState('');
+  const { soundEnabled, toggleSound, playClick } = useSound();
 
   useEffect(() => {
     const updateClocks = () => {
@@ -47,6 +49,25 @@ export const SocStatusBar: React.FC<SocStatusBarProps> = ({ onOpenCommandPalette
             <span className="text-slate-600 hidden lg:inline">|</span>
             <span className="text-slate-400 hidden lg:inline">UTC: {timeUTC || '14:00:00'}</span>
           </div>
+
+          <button
+            onClick={() => {
+              toggleSound();
+              if (!soundEnabled) {
+                // play immediate feedback when turning on
+                setTimeout(() => playClick(), 50);
+              }
+            }}
+            className={`flex items-center gap-1 px-2 py-0.5 rounded border transition-colors text-[10px] ${
+              soundEnabled 
+                ? 'bg-purple-600/30 text-purple-300 border-purple-500/50 shadow-sm' 
+                : 'bg-white/5 text-slate-400 border-white/10 hover:text-white'
+            }`}
+            title={soundEnabled ? 'HUD Tactical SFX: ENABLED (Click to mute)' : 'HUD Tactical SFX: MUTED (Click to enable)'}
+          >
+            {soundEnabled ? <Volume2 className="w-3 h-3 text-purple-400" /> : <VolumeX className="w-3 h-3 text-slate-500" />}
+            <span className="hidden sm:inline">{soundEnabled ? 'SFX: ON' : 'SFX: OFF'}</span>
+          </button>
 
           <button
             onClick={onOpenCommandPalette}

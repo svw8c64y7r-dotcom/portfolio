@@ -368,3 +368,4 @@ export const SecurityHeadersAuditorModal: React.FC<SecurityHeadersAuditorModalPr
     </div>
   );
 };
+

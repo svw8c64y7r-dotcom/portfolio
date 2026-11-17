@@ -467,3 +467,4 @@ export const CvssCalculatorModal: React.FC<CvssCalculatorModalProps> = ({ isOpen
     </div>
   );
 };
+
