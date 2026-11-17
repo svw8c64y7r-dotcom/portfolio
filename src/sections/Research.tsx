@@ -11,14 +11,17 @@ import {
   ArrowRight,
   BookOpen,
   Layers,
-  ChevronRight
+  ChevronRight,
+  Binary
 } from 'lucide-react';
 import { researchArticles, researchCategories } from '../data/research';
 import { ResearchArticle } from '../types';
+import { DfirTimelineScrubber } from '../components/DfirTimelineScrubber';
 
 export const Research: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All Categories');
   const [activeArticle, setActiveArticle] = useState<ResearchArticle | null>(null);
+  const [showInteractiveScrubber, setShowInteractiveScrubber] = useState<boolean>(true);
 
   const filteredArticles = researchArticles.filter(art => {
     if (selectedCategory === 'All Categories') return true;
@@ -50,22 +53,43 @@ export const Research: React.FC = () => {
           </div>
         </div>
 
-        {/* Category Filters */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 scrollbar-none select-none">
-          {researchCategories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium transition-all shrink-0 ${
-                selectedCategory === cat
-                  ? 'bg-cyber-purple text-white font-bold shadow-neon-purple'
-                  : 'bg-cyber-surface border border-cyber-cardBorder text-slate-300 hover:text-white'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
+        {/* Category Filters & Interactive Scrubber Toggle */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-none select-none">
+            {researchCategories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-mono font-medium transition-all shrink-0 ${
+                  selectedCategory === cat
+                    ? 'bg-cyber-purple text-white font-bold shadow-neon-purple'
+                    : 'bg-cyber-surface border border-cyber-cardBorder text-slate-300 hover:text-white'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={() => setShowInteractiveScrubber(!showInteractiveScrubber)}
+            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold transition-all shrink-0 self-start sm:self-center ${
+              showInteractiveScrubber
+                ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-neon-purple'
+                : 'bg-white/5 border border-white/10 text-slate-300 hover:text-white'
+            }`}
+          >
+            <Binary className="w-4 h-4 text-cyber-green" />
+            <span>{showInteractiveScrubber ? 'Interactive DFIR Scrubber (Active)' : 'Show DFIR Timeline Scrubber'}</span>
+          </button>
         </div>
+
+        {/* Featured Interactive DFIR Memory Investigation Timeline */}
+        {showInteractiveScrubber && (
+          <div className="mb-12 animate-in fade-in duration-300">
+            <DfirTimelineScrubber />
+          </div>
+        )}
 
         {/* Research Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

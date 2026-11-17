@@ -1,0 +1,17 @@
+# Sri Ragav Surya A - Security Vulnerability Disclosure Policy
+# RFC 9116 Compliant Security Information
+# https://sri-ragav-surya.vercel.app/security.txt
+
+Contact: mailto:sriragavsurya@gmail.com
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: en
+Canonical: https://sri-ragav-surya.vercel.app/.well-known/security.txt
+Policy: https://sri-ragav-surya.vercel.app/#contact
+Encryption: https://sri-ragav-surya.vercel.app/#contact
+Hiring: https://sri-ragav-surya.vercel.app/#about
+Acknowledgments: https://sri-ragav-surya.vercel.app/#achievements
+
+# Security Etiquette:
+# If you discover a security vulnerability in this portfolio or research projects,
+# please report it responsibly to the email above. PGP encryption is supported.
+# Public Key ID: 0x8870726999SURYA

@@ -79,7 +79,7 @@ export const Terminal: React.FC<TerminalProps> = ({ isStandalone = true }) => {
   const availableCommands = [
     'help', 'about', 'skills', 'projects', 'vapt', 'blog', 'experience', 'achievements',
     'certifications', 'education', 'github', 'linkedin', 'contact', 'resume',
-    'nmap', 'cve', 'cat', 'decode', 'sudo', 'hash',
+    'nmap', 'cve', 'cat', 'decode', 'pgp', 'security', 'dfir', 'cvss', 'sudo', 'hash',
     'clear', 'banner', 'status', 'mitre', 'soc', 'ping', 'whoami', 'date'
   ];
 
@@ -177,8 +177,11 @@ export const Terminal: React.FC<TerminalProps> = ({ isStandalone = true }) => {
               <div><span className="text-purple-400 font-bold inline-block w-28">resume</span> - Download official 159 KB PDF</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">nmap</span> - Simulated perimeter port scan</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">cve</span> - Critical CVE database & mapping</div>
-              <div><span className="text-purple-400 font-bold inline-block w-28">cat &lt;file&gt;</span> - Read file (flag.txt, secret.txt, resume.txt)</div>
+              <div><span className="text-purple-400 font-bold inline-block w-28">cat &lt;file&gt;</span> - Read file (flag.txt, secret.txt, security.txt)</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">decode &lt;ans&gt;</span> - CTF challenge solution decoder</div>
+              <div><span className="text-purple-400 font-bold inline-block w-28">pgp</span> - Display RSA 4096-bit public PGP key</div>
+              <div><span className="text-purple-400 font-bold inline-block w-28">security</span> - RFC 9116 security disclosure policy</div>
+              <div><span className="text-purple-400 font-bold inline-block w-28">dfir</span> - Volatility 3 RAM investigation overview</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">sudo</span> - Attempt privilege escalation check</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">mitre</span> - MITRE ATT&CK framework coverage</div>
               <div><span className="text-purple-400 font-bold inline-block w-28">soc</span> - Simulated live SOC defense telemetry</div>
@@ -562,6 +565,34 @@ export const Terminal: React.FC<TerminalProps> = ({ isStandalone = true }) => {
               <p><strong className="text-purple-300">ACHIEVEMENTS:</strong> 4th Place International CTF | Top 50 DEFCON CTF</p>
             </div>
           );
+        } else if (targetFile === 'security.txt') {
+          outputContent = (
+            <div className="text-xs font-mono space-y-2 p-3 bg-black/80 border border-purple-500/30 rounded-xl text-slate-300">
+              <div className="text-purple-400 font-bold">[RFC 9116 Compliant Security Policy]</div>
+              <pre className="text-slate-300 whitespace-pre overflow-x-auto text-[11px]">
+{`Contact: mailto:${personalData.email}
+Expires: 2027-12-31T23:59:59.000Z
+Canonical: https://sri-ragav-surya.vercel.app/.well-known/security.txt
+Policy: https://sri-ragav-surya.vercel.app/#contact
+Encryption: 0x8870726999SURYA`}
+              </pre>
+            </div>
+          );
+        } else if (targetFile === 'pgp.asc' || targetFile === 'pgp.txt') {
+          outputContent = (
+            <div className="text-xs font-mono space-y-2 p-3 bg-black/80 border border-amber-500/30 rounded-xl text-amber-300">
+              <div className="text-amber-400 font-bold">[PGP Public Key Block - RSA 4096-bit]</div>
+              <p className="text-slate-300">Fingerprint: 4E9A 0211 02D2 4F9C B3A9 C5C6 1D4E EC8C 8870 7269</p>
+              <pre className="text-cyber-blue text-[10px] whitespace-pre overflow-x-auto">
+{`-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: OpenPGP v4.0.0
+Comment: Key ID 0x8870726999SURYA
+uid: Sri Ragav Surya A <${personalData.email}>
+sub 4096R/0x8870726999SURYA
+-----END PGP PUBLIC KEY BLOCK-----`}
+              </pre>
+            </div>
+          );
         } else if (targetFile === 'contact.txt') {
           outputContent = (
             <div className="text-xs font-mono text-slate-300 space-y-1">
@@ -639,6 +670,69 @@ export const Terminal: React.FC<TerminalProps> = ({ isStandalone = true }) => {
             </div>
           );
         }
+        break;
+
+      case 'pgp':
+        outputContent = (
+          <div className="space-y-2 text-xs font-mono text-slate-300 p-3 rounded-xl bg-black/80 border border-amber-500/30">
+            <div className="text-amber-400 font-bold flex items-center gap-1.5">
+              <span>🔑</span>
+              <span>PGP PUBLIC KEY // RSA 4096-BIT</span>
+            </div>
+            <p><strong>Key ID:</strong> <span className="text-amber-300">0x8870726999SURYA</span></p>
+            <p><strong>Fingerprint:</strong> <span className="text-cyber-green">4E9A 0211 02D2 4F9C B3A9 C5C6 1D4E EC8C 8870 7269</span></p>
+            <p><strong>Owner:</strong> Sri Ragav Surya A &lt;{personalData.email}&gt;</p>
+            <pre className="text-cyber-blue text-[10px] whitespace-pre overflow-x-auto p-2 bg-black/60 rounded border border-white/5">
+{`-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: OpenPGP v4.0.0
+Comment: Key ID 0x8870726999SURYA
+uid: Sri Ragav Surya A <${personalData.email}>
+sub 4096R/0x8870726999SURYA
+-----END PGP PUBLIC KEY BLOCK-----`}
+            </pre>
+            <div className="text-[10px] text-slate-400">Download ASCII key at <code className="text-purple-300">/pgp-key.asc</code></div>
+          </div>
+        );
+        break;
+
+      case 'security':
+      case 'security.txt':
+        outputContent = (
+          <div className="space-y-2 text-xs font-mono text-slate-300 p-3 rounded-xl bg-black/80 border border-purple-500/30">
+            <div className="text-purple-400 font-bold">📜 RFC 9116 VULNERABILITY DISCLOSURE POLICY</div>
+            <div className="space-y-1 text-slate-200">
+              <p>Contact: <span className="text-cyber-green">mailto:{personalData.email}</span></p>
+              <p>Canonical: <span className="text-cyber-blue">https://sri-ragav-surya.vercel.app/.well-known/security.txt</span></p>
+              <p>Encryption: <span className="text-amber-300">0x8870726999SURYA (RSA 4096)</span></p>
+              <p>Expires: <span className="text-slate-400">2027-12-31T23:59:59.000Z</span></p>
+            </div>
+            <div className="text-[11px] text-slate-400 pt-1 border-t border-white/10">
+              Responsible disclosure reports are reviewed within 48 hours. PGP encryption is strongly encouraged for PoC details.
+            </div>
+          </div>
+        );
+        break;
+
+      case 'dfir':
+        outputContent = (
+          <div className="space-y-2 text-xs font-mono text-slate-300 p-3 rounded-xl bg-black/80 border border-cyber-green/30">
+            <div className="text-cyber-green font-bold flex items-center gap-1.5">
+              <span>🔬</span>
+              <span>VOLATILITY 3 MEMORY INVESTIGATION // PROCESS HOLLOWING</span>
+            </div>
+            <p className="text-slate-200">
+              Case Study: Detecting in-memory reflective injection & C2 beaconing using Volatility 3 and VAD tree analysis.
+            </p>
+            <div className="p-2 bg-black/60 rounded border border-white/10 space-y-1 text-[11px]">
+              <div>• Target: <span className="text-red-400 font-bold">PID 4812 (svchost.exe)</span> - Parent: PID 2410 (cmd.exe)</div>
+              <div>• Permission Anomaly: <span className="text-amber-300">PAGE_EXECUTE_READWRITE</span> in unbacked memory</div>
+              <div>• Extracted Payload: Cobalt Strike HTTPS Beacon with SleepMask evasion</div>
+            </div>
+            <div className="text-[10px] text-purple-300">
+              Check the interactive timeline scrubber in the #research section!
+            </div>
+          </div>
+        );
         break;
 
       case 'sudo':

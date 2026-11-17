@@ -14,9 +14,11 @@ import {
   MessageSquare,
   Lock,
   KeyRound,
-  ExternalLink
+  ExternalLink,
+  FileCode
 } from 'lucide-react';
 import { personalData } from '../data/personal';
+import { PgpKeyModal } from '../components/PgpKeyModal';
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -30,6 +32,7 @@ export const Contact: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [copiedField, setCopiedField] = useState<string | null>(null);
+  const [isPgpModalOpen, setIsPgpModalOpen] = useState(false);
 
   const handleCopy = (text: string, field: string) => {
     navigator.clipboard.writeText(text);
@@ -195,25 +198,54 @@ export const Contact: React.FC = () => {
                 </div>
 
                 {/* Security PGP Fingerprint Card */}
-                <div className="p-3 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between">
-                  <div className="flex items-center gap-3 overflow-hidden">
-                    <div className="p-2 rounded-lg bg-white/5 border border-white/10 text-amber-400 shrink-0">
+                <div className="p-3.5 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3 overflow-hidden cursor-pointer" onClick={() => setIsPgpModalOpen(true)}>
+                    <div className="p-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 shrink-0">
                       <KeyRound className="w-4 h-4" />
                     </div>
                     <div className="truncate">
-                      <span className="text-[10px] font-mono text-slate-400 block uppercase">PGP Key ID</span>
-                      <span className="text-xs font-mono text-slate-300 font-bold">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] font-mono text-slate-400 uppercase">PGP Key ID</span>
+                        <span className="text-[9px] font-mono px-1 rounded bg-amber-500/20 text-amber-300">4096R</span>
+                      </div>
+                      <span className="text-xs font-mono text-slate-200 font-bold hover:text-amber-300 transition-colors">
                         0x8870726999SURYA
                       </span>
                     </div>
                   </div>
-                  <button
-                    onClick={() => handleCopy('0x8870726999SURYA', 'pgp')}
-                    className="p-1.5 text-slate-400 hover:text-amber-400 transition-colors"
-                    title="Copy PGP Key ID"
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <button
+                      onClick={() => setIsPgpModalOpen(true)}
+                      className="px-2 py-1 text-[11px] font-mono rounded bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 transition-colors"
+                      title="Inspect full PGP Public Key"
+                    >
+                      View Key
+                    </button>
+                    <button
+                      onClick={() => handleCopy('0x8870726999SURYA', 'pgp')}
+                      className="p-1.5 text-slate-400 hover:text-amber-400 transition-colors"
+                      title="Copy PGP Key ID"
+                    >
+                      {copiedField === 'pgp' ? <Check className="w-4 h-4 text-cyber-green" /> : <Copy className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                {/* RFC 9116 security.txt Direct Badge */}
+                <div className="p-3 rounded-xl bg-purple-950/30 border border-purple-500/30 flex items-center justify-between text-xs font-mono">
+                  <div className="flex items-center gap-2 text-slate-300">
+                    <ShieldCheck className="w-4 h-4 text-purple-400" />
+                    <span>RFC 9116 Policy: <code className="text-purple-300">security.txt</code></span>
+                  </div>
+                  <a
+                    href="/.well-known/security.txt"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-[11px] text-purple-400 hover:text-purple-300 font-semibold"
                   >
-                    {copiedField === 'pgp' ? <Check className="w-4 h-4 text-cyber-green" /> : <Copy className="w-4 h-4" />}
-                  </button>
+                    <span>Inspect</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
                 </div>
               </div>
 
@@ -385,6 +417,12 @@ export const Contact: React.FC = () => {
         </div>
 
       </div>
+
+      {/* PGP Public Key Modal */}
+      <PgpKeyModal
+        isOpen={isPgpModalOpen}
+        onClose={() => setIsPgpModalOpen(false)}
+      />
     </section>
   );
 };

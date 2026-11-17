@@ -14,14 +14,19 @@ import {
   Layers,
   Printer,
   FileText,
-  X
+  X,
+  Calculator
 } from 'lucide-react';
 import { vaptAssessmentData, VulnerabilityFinding } from '../data/vaptReports';
+import { CvssCalculatorModal } from '../components/CvssCalculatorModal';
+import { SecurityHeadersAuditorModal } from '../components/SecurityHeadersAuditorModal';
 
 export const VaptReport: React.FC = () => {
   const [selectedFinding, setSelectedFinding] = useState<VulnerabilityFinding | null>(null);
   const [activeSeverityFilter, setActiveSeverityFilter] = useState<string>('All');
   const [showExecutiveSummary, setShowExecutiveSummary] = useState(false);
+  const [showCvssCalculator, setShowCvssCalculator] = useState(false);
+  const [showHeadersAuditor, setShowHeadersAuditor] = useState(false);
 
   const assessment = vaptAssessmentData;
 
@@ -64,23 +69,42 @@ export const VaptReport: React.FC = () => {
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 self-start md:self-end">
+          <div className="flex flex-wrap items-center gap-2.5 self-start md:self-end">
+            <button
+              onClick={() => setShowCvssCalculator(true)}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono font-bold bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 transition-all shadow-sm"
+              title="Interactive CVSS 3.1 Base Score Calculator"
+            >
+              <Calculator className="w-4 h-4 text-amber-400" />
+              <span>CVSS 3.1 Calculator</span>
+            </button>
+
+            <button
+              onClick={() => setShowHeadersAuditor(true)}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono font-bold bg-cyber-blue/15 hover:bg-cyber-blue/25 border border-cyber-blue/30 text-cyber-blue transition-all shadow-sm"
+              title="Audit Security Headers & CSP Policies"
+            >
+              <ShieldCheck className="w-4 h-4 text-cyber-blue" />
+              <span>Headers Auditor</span>
+            </button>
+
             <button
               onClick={() => setShowExecutiveSummary(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-bold bg-white/10 hover:bg-white/15 border border-white/20 text-white transition-all shadow-md"
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-mono font-bold bg-white/10 hover:bg-white/15 border border-white/20 text-white transition-all shadow-md"
             >
               <FileText className="w-4 h-4 text-purple-400" />
               <span>Executive Summary</span>
             </button>
+
             <button
               onClick={() => {
                 setShowExecutiveSummary(true);
                 setTimeout(() => window.print(), 300);
               }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-bold bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:opacity-90 transition-all shadow-neon-purple"
+              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-mono font-bold bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:opacity-90 transition-all shadow-neon-purple"
             >
               <Printer className="w-4 h-4" />
-              <span>Print / Save PDF</span>
+              <span>Print / PDF</span>
             </button>
           </div>
         </div>
@@ -539,6 +563,18 @@ export const VaptReport: React.FC = () => {
             </div>
           </div>
         )}
+
+        {/* Interactive CVSS 3.1 Calculator Modal */}
+        <CvssCalculatorModal
+          isOpen={showCvssCalculator}
+          onClose={() => setShowCvssCalculator(false)}
+        />
+
+        {/* Security Headers & CSP Auditor Modal */}
+        <SecurityHeadersAuditorModal
+          isOpen={showHeadersAuditor}
+          onClose={() => setShowHeadersAuditor(false)}
+        />
 
       </div>
     </section>
